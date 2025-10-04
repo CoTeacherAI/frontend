@@ -16,14 +16,8 @@ export const signUpSchema = z.object({
   password: passwordSchema,
   confirmPassword: z.string(),
   role: z.enum(['student', 'professor'], {
-    errorMap: () => ({ message: "Please select a role" })
-  }),
-  fullName: z.string().min(1, 'Full name is required').max(100, 'Full name must be less than 100 characters'),
-  // Professor fields
-  department: z.string().optional(),
-  // Student fields
-  major: z.string().optional(),
-  graduationYear: z.number().optional()
+    message: "Please select a role"
+  })
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],

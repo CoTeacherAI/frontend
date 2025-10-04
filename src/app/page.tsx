@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { GlassyCard } from "@/components/GlassyCard";
-import { Check, Shield, Sparkles, Upload } from "lucide-react";
+import { Shield, Sparkles, Upload } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
-import  HeroDemo from "@/components/HeroDemo";
+import HeroDemo from "@/components/HeroDemo";
 
 export default function Page() {
   return (

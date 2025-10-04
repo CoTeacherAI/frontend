@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Mail, Lock, Eye, EyeOff, GraduationCap, User, Building, BookOpen, Calendar } from 'lucide-react'
 
@@ -16,8 +15,6 @@ export function SignUpForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
-  const [selectedRole, setSelectedRole] = useState<'student' | 'professor' | ''>('')
-  const router = useRouter()
   const { signUp } = useAuth()
 
   const {
@@ -52,7 +49,7 @@ export function SignUpForm() {
         // Keep user on signup page but show success message
         // Email confirmation is required per Supabase defaults
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred')
     }
   }
@@ -85,7 +82,7 @@ export function SignUpForm() {
             Check your email
           </h1>
           <p className="text-slate-300 mb-6">
-            We've sent you a confirmation link. Once you verify your email, you can sign in.
+            We&apos;ve sent you a confirmation link. Once you verify your email, you can sign in.
           </p>
           
           <Link 

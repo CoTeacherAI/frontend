@@ -129,7 +129,7 @@ function UploadScene() {
         <div className="rounded-xl border border-white/10 bg-white/5 p-3 md:p-4">
           <div className="text-xs uppercase tracking-wide text-slate-300/75">Files</div>
           <ul className="mt-2 space-y-2">
-            {files.map((f, i) => (
+            {files.map((f) => (
               <li key={f.name} className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5">
                 <div className="flex items-center gap-2">
                   <f.icon className="h-4 w-4 text-cyan-300" />
