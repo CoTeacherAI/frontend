@@ -2,6 +2,7 @@ import Link from "next/link";
 import { GlassyCard } from "@/components/GlassyCard";
 import { Check, Shield, Sparkles, Upload } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
+import  HeroDemo from "@/components/HeroDemo";
 
 export default function Page() {
   return (
@@ -13,23 +14,22 @@ export default function Page() {
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-tight">
             Every course gets its own <span className="text-cyan-300">AI co-teacher</span>
           </h1>
-          <p className="mt-4 text-slate-300/90 text-lg md:text-xl max-w-2xl mx-auto">
-            Professors upload materials. Students learn faster with a safeguarded tutor that
-            explains—never gives away answers.
+          <p className="mt-4 text-slate-300/90 text-lg md:text-xl max-w-3xl mx-auto">
+            Professors upload materials. The AI analyzes and stores them privately for each course.
+            Students learn faster with guided hints—never final answers.
           </p>
           <div className="mt-8 flex items-center justify-center gap-3">
-            <Link
-              href="/auth/signup"
-              className="rounded-full px-6 py-3 bg-cyan-400/90 text-slate-900 font-semibold hover:bg-cyan-300 transition"
-            >
+            <Link href="/auth/signup" className="rounded-full px-6 py-3 bg-cyan-400/90 text-slate-900 font-semibold hover:bg-cyan-300 transition">
               Get started
             </Link>
-            <Link
-              href="#how"
-              className="rounded-full px-6 py-3 border border-white/20 hover:border-white/40 transition"
-            >
+            <Link href="#how" className="rounded-full px-6 py-3 border border-white/20 hover:border-white/40 transition">
               See how it works
             </Link>
+          </div>
+
+          {/* Bigger demo */}
+          <div className="mt-12">
+            <HeroDemo />
           </div>
         </div>
       </section>
