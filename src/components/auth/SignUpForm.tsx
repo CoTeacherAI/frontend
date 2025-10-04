@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { Mail, Lock, Eye, EyeOff, GraduationCap } from 'lucide-react'
+import { Mail, Lock, Eye, EyeOff, GraduationCap, User, Building, BookOpen, Calendar } from 'lucide-react'
 
 import { signUpSchema, SignUpFormData } from '@/lib/schemas'
 import { useAuth, UserRole } from '@/contexts/AuthContext'
@@ -16,6 +16,7 @@ export function SignUpForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
+  const [selectedRole, setSelectedRole] = useState<'student' | 'professor' | ''>('')
   const router = useRouter()
   const { signUp } = useAuth()
 
@@ -30,7 +31,19 @@ export function SignUpForm() {
   const onSubmit = async (data: SignUpFormData) => {
     try {
       setError(null)
-      const { error } = await signUp(data.email, data.password, data.role as UserRole)
+      
+      // Prepare additional data based on role
+      const additionalData = data.role === 'professor' 
+        ? { department: data.department }
+        : { major: data.major, graduationYear: data.graduationYear }
+
+      const { error } = await signUp(
+        data.email, 
+        data.password, 
+        data.role as UserRole, 
+        data.fullName,
+        additionalData
+      )
       
       if (error) {
         setError(error.message || 'Failed to create account')
@@ -162,6 +175,7 @@ export function SignUpForm() {
               <select
                 id="role"
                 {...register('role')}
+                onChange={(e) => setSelectedRole(e.target.value as 'student' | 'professor' | '')}
                 className="w-full pl-10 pr-12 py-3 rounded-lg border border-white/20 bg-white/10 backdrop-blur-xl text-white focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300 transition appearance-none cursor-pointer"
               >
                 <option value="" className="bg-slate-800 text-white">Select your role</option>
@@ -178,6 +192,95 @@ export function SignUpForm() {
               <p className="mt-2 text-sm text-red-300">{errors.role.message}</p>
             )}
           </div>
+
+          {/* Full Name field */}
+          <div>
+            <label htmlFor="fullName" className="block text-sm font-medium text-slate-200 mb-2">
+              Full Name
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <User className="h-4 w-4 text-slate-400" />
+              </div>
+              <input
+                id="fullName"
+                {...register('fullName')}
+                className="w-full pl-10 pr-4 py-3 rounded-lg border border-white/20 bg-white/10 backdrop-blur-xl text-white placeholder-slate-400 focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300 transition"
+                placeholder="Enter your full name"
+              />
+            </div>
+            {errors.fullName && (
+              <p className="mt-1 text-sm text-red-300">{errors.fullName.message}</p>
+            )}
+          </div>
+
+          {/* Role-specific fields */}
+          {selectedRole === 'professor' && (
+            <div>
+              <label htmlFor="department" className="block text-sm font-medium text-slate-200 mb-2">
+                Department
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Building className="h-4 w-4 text-slate-400" />
+                </div>
+                <input
+                  id="department"
+                  {...register('department')}
+                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-white/20 bg-white/10 backdrop-blur-xl text-white placeholder-slate-400 focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300 transition"
+                  placeholder="e.g., Computer Science"
+                />
+              </div>
+              {errors.department && (
+                <p className="mt-1 text-sm text-red-300">{errors.department.message}</p>
+              )}
+            </div>
+          )}
+
+          {selectedRole === 'student' && (
+            <>
+              <div>
+                <label htmlFor="major" className="block text-sm font-medium text-slate-200 mb-2">
+                  Major
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <BookOpen className="h-4 w-4 text-slate-400" />
+                  </div>
+                  <input
+                    id="major"
+                    {...register('major')}
+                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-white/20 bg-white/10 backdrop-blur-xl text-white placeholder-slate-400 focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300 transition"
+                    placeholder="e.g., Computer Science"
+                  />
+                </div>
+                {errors.major && (
+                  <p className="mt-1 text-sm text-red-300">{errors.major.message}</p>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="graduationYear" className="block text-sm font-medium text-slate-200 mb-2">
+                  Graduation Year
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Calendar className="h-4 w-4 text-slate-400" />
+                  </div>
+                  <input
+                    id="graduationYear"
+                    type="number"
+                    {...register('graduationYear', { valueAsNumber: true })}
+                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-white/20 bg-white/10 backdrop-blur-xl text-white placeholder-slate-400 focus:outline-none focus:border-cyan-300 focus:ring-1 focus:ring-cyan-300 transition"
+                    placeholder="2025"
+                  />
+                </div>
+                {errors.graduationYear && (
+                  <p className="mt-1 text-sm text-red-300">{errors.graduationYear.message}</p>
+                )}
+              </div>
+            </>
+          )}
 
           {/* Password field */}
           <div>

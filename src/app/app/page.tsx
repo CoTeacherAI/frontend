@@ -1,11 +1,20 @@
 "use client";
 
+import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { motion } from 'framer-motion'
-import { BookOpen, GraduationCap, Users, Settings } from 'lucide-react'
+import { BookOpen, GraduationCap, Users, Settings, Plus } from 'lucide-react'
+import { CreateCourseForm } from '@/components/courses/CreateCourseForm'
+import { CourseList } from '@/components/courses/CourseList'
 
 export default function AppPage() {
   const { user, userRole } = useAuth()
+  const [isCreateCourseOpen, setIsCreateCourseOpen] = useState(false)
+  const [courseCreated, setCourseCreated] = useState(0)
+
+  const handleCourseCreated = () => {
+    setCourseCreated(prev => prev + 1)
+  }
 
   return (
     <div className="min-h-screen pt-24 px-4">
@@ -90,22 +99,37 @@ export default function AppPage() {
           )}
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="rounded-xl border border-white/15 bg-white/10 backdrop-blur-xl shadow-[0_8px_30px_rgba(2,8,23,0.35)] p-6"
-        >
-          <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
-          <div className="flex gap-4">
-            {userRole === 'professor' ? (
-              <>
-                <button 
-                  disabled
-                  className="px-4 py-2 bg-cyan-500 text-slate-900 font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+        {userRole === 'professor' ? (
+          <>
+            {/* Course Management Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="rounded-xl border border-white/15 bg-white/10 backdrop-blur-xl shadow-[0_8px_30px_rgba(2,8,23,0.35)] p-6 mb-8"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold">My Courses</h2>
+                <button
+                  onClick={() => setIsCreateCourseOpen(true)}
+                  className="flex items-center gap-2 px-4 py-2 bg-cyan-500 text-slate-900 font-medium rounded-lg hover:bg-cyan-300 transition"
                 >
+                  <Plus className="h-4 w-4" />
                   Create Course
                 </button>
+              </div>
+              <CourseList onCourseCreated={handleCourseCreated} />
+            </motion.div>
+
+            {/* Quick Actions */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="rounded-xl border border-white/15 bg-white/10 backdrop-blur-xl shadow-[0_8px_30px_rgba(2,8,23,0.35)] p-6"
+            >
+              <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
+              <div className="flex gap-4">
                 <button 
                   disabled
                   className="px-4 py-2 border border-white/20 text-slate-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
@@ -118,31 +142,53 @@ export default function AppPage() {
                 >
                   Manage Students
                 </button>
-              </>
-            ) : (
-              <>
-                <button 
-                  disabled
-                  className="px-4 py-2 bg-cyan-500 text-slate-900 font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Join Course
-                </button>
                 <button 
                   disabled
                   className="px-4 py-2 border border-white/20 text-slate-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Start Chatting
+                  AI Settings
                 </button>
-                <button 
-                  disabled
-                  className="px-4 py-2 border border-white/20 text-slate-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  View Progress
-                </button>
-              </>
-            )}
-          </div>
-        </motion.div>
+              </div>
+            </motion.div>
+          </>
+        ) : (
+          /* Student Quick Actions */
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="rounded-xl border border-white/15 bg-white/10 backdrop-blur-xl shadow-[0_8px_30px_rgba(2,8,23,0.35)] p-6"
+          >
+            <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
+            <div className="flex gap-4">
+              <button 
+                disabled
+                className="px-4 py-2 bg-cyan-500 text-slate-900 font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Join Course
+              </button>
+              <button 
+                disabled
+                className="px-4 py-2 border border-white/20 text-slate-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Start Chatting
+              </button>
+              <button 
+                disabled
+                className="px-4 py-2 border border-white/20 text-slate-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                View Progress
+              </button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Create Course Modal */}
+        <CreateCourseForm
+          isOpen={isCreateCourseOpen}
+          onClose={() => setIsCreateCourseOpen(false)}
+          onCourseCreated={handleCourseCreated}
+        />
       </div>
     </div>
   )
