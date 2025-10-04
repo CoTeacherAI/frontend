@@ -35,7 +35,7 @@ export function SignInForm() {
       } else {
         router.push('/app')
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred')
     }
   }
@@ -155,7 +155,7 @@ export function SignInForm() {
 
         {/* Sign up link */}
         <div className="mt-8 text-center text-sm text-slate-300">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link href="/auth/signup" className="text-cyan-300 hover:text-cyan-200 font-medium transition">
             Sign up
           </Link>
