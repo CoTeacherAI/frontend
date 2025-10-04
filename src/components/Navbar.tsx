@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
-import { LogOut, User, GraduationCap, BookOpen } from "lucide-react";
+import { LogOut, GraduationCap, BookOpen } from "lucide-react";
 
 export function Navbar() {
   const { user, userRole, signOut } = useAuth();
