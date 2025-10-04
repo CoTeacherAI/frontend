@@ -21,6 +21,22 @@ export const signUpSchema = z.object({
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
+}).refine((data) => {
+  if (data.role === 'professor' && !data.department) {
+    return false
+  }
+  return true
+}, {
+  message: "Department is required for professors",
+  path: ["department"]
+}).refine((data) => {
+  if (data.role === 'student' && (!data.major || !data.graduationYear)) {
+    return false
+  }
+  return true
+}, {
+  message: "Major and graduation year are required for students",
+  path: ["major"]
 })
 
 export const forgotPasswordSchema = z.object({
