@@ -16,7 +16,7 @@ export const signUpSchema = z.object({
   password: passwordSchema,
   confirmPassword: z.string(),
   role: z.enum(['student', 'professor'], {
-    errorMap: () => ({ message: "Please select a role" })
+    message: "Please select a role"
   })
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
