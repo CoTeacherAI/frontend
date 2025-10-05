@@ -1,47 +1,53 @@
 "use client";
+
 import Link from "next/link";
-import { useAuth } from "@/contexts/AuthContext";
-import { LogOut, GraduationCap, BookOpen } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { LogOut } from "lucide-react";
+import { useAuth } from "@/app/contexts/AuthContext";
 
 export function Navbar() {
-  const { user, userRole, signOut } = useAuth();
+  const router = useRouter();
+  const { user, username, loading, signOut } = useAuth(); // username comes from AuthContext
 
   const handleSignOut = async () => {
-    await signOut();
+    try {
+      await signOut();
+      router.replace("/"); // back to landing page
+    } catch (err) {
+      console.error("Sign out failed:", err);
+    }
   };
+
+  const homeHref = user ? "/app" : "/";
 
   return (
     <div className="fixed top-4 left-0 right-0 z-50">
       <div className="mx-auto max-w-6xl px-3">
         <div className="flex items-center justify-between rounded-full border border-white/15 bg-white/10 backdrop-blur-xl shadow-[0_8px_30px_rgba(2,8,23,0.35)] px-4 py-2">
-          <Link href={user ? "/app" : "/"} className="font-semibold tracking-tight">
+          {/* Logo / Home link */}
+          <Link href={homeHref} className="font-semibold tracking-tight">
             <span className="text-lg md:text-xl">
               CoTeacher <span className="text-cyan-300">AI</span>
             </span>
           </Link>
+
+          {/* Right side */}
           <div className="flex items-center gap-2">
-            {user ? (
+            {/* While loading, keep layout stable */}
+            {loading ? (
+              <div className="h-9 w-28 rounded-full bg-white/10 border border-white/15 animate-pulse" />
+            ) : user ? (
               <>
-                <div className="flex items-center gap-3">
-                  <div className="rounded-full bg-slate-700/50 p-2">
-                    {userRole === 'professor' ? (
-                      <GraduationCap className="h-4 w-4" />
-                    ) : (
-                      <BookOpen className="h-4 w-4" />
-                    )}
-                  </div>
-                  <div className="hidden md:block">
-                    <span className="text-sm text-slate-200">
-                      {user.email}
-                    </span>
-                    <span className="text-xs text-slate-400 block">
-                      {userRole === 'professor' ? 'Professor' : 'Student'}
-                    </span>
-                  </div>
-                </div>
+                {/* Username pill */}
+                <span className="hidden sm:inline rounded-full border border-white/15 bg-white/5 px-3 py-1 text-sm text-slate-200">
+                  {username ?? user.email?.split("@")[0] ?? "you"}
+                </span>
+
+                {/* Sign out button */}
                 <button
                   onClick={handleSignOut}
                   className="rounded-full px-4 py-2 text-sm md:text-[0.95rem] border border-white/20 hover:border-white/40 transition flex items-center gap-2"
+                  aria-label="Sign out"
                 >
                   <LogOut className="h-4 w-4" />
                   Sign out

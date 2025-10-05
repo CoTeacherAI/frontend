@@ -4,6 +4,9 @@ import { Shield, Sparkles, Upload } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import HeroDemo from "@/components/HeroDemo";
 
+// read the public key on the server and inject it into the inline script below
+const OPENAI_KEY = process.env.NEXT_PUBLIC_OPENAI_API_KEY || "";
+
 export default function Page() {
   return (
     <>
@@ -33,6 +36,9 @@ export default function Page() {
           </div>
         </div>
       </section>
+
+      {/* Featured (optional: remove if not needed) */}
+      {/* You can insert a featured CourseList here if you like */}
 
       {/* Features */}
       <section className="relative mt-16 md:mt-24" id="features">
@@ -122,6 +128,209 @@ export default function Page() {
           </div>
         </div>
       </footer>
+
+      {/* Chatbot mount node */}
+      <div id="site-chatbot-root" />
+
+      {/* Inline floating chatbot (single-file, demo) */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+(() => {
+  const OPENAI_KEY = ${JSON.stringify(OPENAI_KEY)};
+  if (!OPENAI_KEY) {
+    console.warn("NEXT_PUBLIC_OPENAI_API_KEY is not set. Chatbot disabled.");
+    return;
+  }
+
+  const root = document.getElementById("site-chatbot-root");
+  if (!root) return;
+
+  // Container
+  const wrap = document.createElement("div");
+  wrap.style.position = "fixed";
+  wrap.style.right = "20px";
+  wrap.style.bottom = "20px";
+  wrap.style.zIndex = "9999";
+  root.appendChild(wrap);
+
+  // Toggle button
+  const btn = document.createElement("button");
+  btn.textContent = "Chat";
+  btn.style.all = "unset";
+  btn.style.cursor = "pointer";
+  btn.style.background = "linear-gradient(135deg, rgba(34,211,238,.95), rgba(59,130,246,.95))";
+  btn.style.color = "#0b1220";
+  btn.style.fontWeight = "700";
+  btn.style.padding = "10px 16px";
+  btn.style.borderRadius = "9999px";
+  btn.style.boxShadow = "0 10px 30px rgba(2,8,23,.35)";
+  wrap.appendChild(btn);
+
+  // Panel
+  const panel = document.createElement("div");
+  panel.style.display = "none";
+  panel.style.width = "360px";
+  panel.style.maxHeight = "520px";
+  panel.style.background = "rgba(255,255,255,0.08)";
+  panel.style.backdropFilter = "blur(14px)";
+  panel.style.border = "1px solid rgba(255,255,255,.15)";
+  panel.style.borderRadius = "16px";
+  panel.style.boxShadow = "0 10px 30px rgba(2,8,23,.45)";
+  panel.style.overflow = "hidden";
+  panel.style.marginTop = "10px";
+  wrap.appendChild(panel);
+
+  // Header
+  const header = document.createElement("div");
+  header.style.display = "flex";
+  header.style.alignItems = "center";
+  header.style.justifyContent = "space-between";
+  header.style.padding = "10px 12px";
+  header.style.borderBottom = "1px solid rgba(255,255,255,.1)";
+  header.style.color = "white";
+  header.innerHTML = '<div style="font-weight:600">CoTeacher AI</div><div style="opacity:.7;font-size:12px">Tutor</div>';
+  panel.appendChild(header);
+
+  // Messages area
+  const msgs = document.createElement("div");
+  msgs.style.padding = "12px";
+  msgs.style.height = "360px";
+  msgs.style.overflow = "auto";
+  msgs.style.color = "white";
+  msgs.style.fontSize = "14px";
+  msgs.style.lineHeight = "1.5";
+  panel.appendChild(msgs);
+
+  // Input row
+  const form = document.createElement("form");
+  form.style.display = "flex";
+  form.style.gap = "8px";
+  form.style.padding = "12px";
+  form.style.borderTop = "1px solid rgba(255,255,255,.1)";
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.placeholder = "Ask about courses, features, or concepts…";
+  input.required = true;
+  input.style.flex = "1";
+  input.style.background = "rgba(0,0,0,.25)";
+  input.style.border = "1px solid rgba(255,255,255,.2)";
+  input.style.borderRadius = "9999px";
+  input.style.color = "white";
+  input.style.height = "38px";
+  input.style.padding = "0 12px";
+
+  const send = document.createElement("button");
+  send.type = "submit";
+  send.textContent = "Send";
+  send.style.all = "unset";
+  send.style.cursor = "pointer";
+  send.style.background = "rgba(165,243,252,.95)";
+  send.style.color = "#0b1220";
+  send.style.fontWeight = "700";
+  send.style.padding = "8px 14px";
+  send.style.borderRadius = "9999px";
+
+  form.appendChild(input);
+  form.appendChild(send);
+  panel.appendChild(form);
+
+  // Toggle behavior
+  let open = false;
+  btn.addEventListener("click", () => {
+    open = !open;
+    panel.style.display = open ? "block" : "none";
+  });
+
+  // Bubbles
+  function addBubble(role, text) {
+    const row = document.createElement("div");
+    row.style.margin = "8px 0";
+    row.style.display = "flex";
+    row.style.justifyContent = role === "user" ? "flex-end" : "flex-start";
+
+    const bubble = document.createElement("div");
+    bubble.style.maxWidth = "78%";
+    bubble.style.border = "1px solid rgba(255,255,255,.15)";
+    bubble.style.borderRadius = "16px";
+    bubble.style.padding = "8px 10px";
+    bubble.style.whiteSpace = "pre-wrap";
+    bubble.style.backdropFilter = "blur(8px)";
+    bubble.style.background = role === "user" ? "rgba(34,211,238,.18)" : "rgba(255,255,255,.08)";
+    bubble.style.color = "white";
+    bubble.textContent = text;
+
+    row.appendChild(bubble);
+    msgs.appendChild(row);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  // Seed message
+  addBubble("assistant", "Hi! I’m CoTeacher’s AI tutor. Ask anything about the platform or your course topics. I’ll guide with hints—not final answers.");
+
+  // OpenAI call
+  const history = [{ role: "system", content:
+    "You are CoTeacher AI’s tutor. Be friendly, concise, and pedagogical. " +
+    "NEVER provide direct final answers for graded questions; instead give hints, explanations, and step-by-step guidance. " +
+    "Encourage integrity and learning." }];
+
+  async function callOpenAI(question) {
+    const payload = {
+      model: "gpt-4o-mini",
+      temperature: 0.2,
+      messages: [...history, { role: "user", content: question }],
+    };
+
+    const res = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + OPENAI_KEY },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      throw new Error(text || res.statusText);
+    }
+
+    const data = await res.json();
+    const answer = (data?.choices?.[0]?.message?.content || "").trim();
+    history.push({ role: "user", content: question });
+    history.push({ role: "assistant", content: answer });
+    return answer;
+  }
+
+  // Submit
+  let busy = false;
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (busy) return;
+    const q = input.value.trim();
+    if (!q) return;
+
+    addBubble("user", q);
+    input.value = "";
+    busy = true;
+
+    try {
+      const thinking = "Thinking…";
+      addBubble("assistant", thinking);
+      const before = msgs.lastChild;
+
+      const answer = await callOpenAI(q);
+      if (before) msgs.removeChild(before);
+      addBubble("assistant", answer || "Sorry — I couldn’t find an answer.");
+    } catch (err) {
+      addBubble("assistant", "Oops — there was an error reaching the model.");
+      console.error(err);
+    } finally {
+      busy = false;
+    }
+  });
+})();
+          `,
+        }}
+      />
     </>
   );
 }
