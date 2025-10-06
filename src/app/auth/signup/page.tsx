@@ -8,7 +8,8 @@ export default function SignUpPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [role, setRole] = useState("student");
+  const [role, setRole] = useState<"student" | "professor">("student");
+  const [schoolId, setSchoolId] = useState(""); // <-- new
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -22,30 +23,45 @@ export default function SignUpPage() {
       setError("Passwords do not match");
       return;
     }
+    if (!schoolId.trim()) {
+      setError("Please enter your School ID");
+      return;
+    }
 
     try {
       setLoading(true);
-      const { data, error } = await supabase.auth.signUp({ email, password });
-      if (error) {
-        setError(error.message);
+
+      // 1) create auth user
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+      if (signUpError) {
+        setError(signUpError.message);
         return;
       }
 
-      if (data.user) {
+      // 2) create profile row (role, username, school_id)
+      const authUser = data.user;
+      if (authUser) {
         const { error: profileError } = await supabase.from("profiles").insert([
           {
-            id: data.user.id,
+            id: authUser.id,
             email,
             username,
             role,
+            school_id: schoolId.trim(), // <-- save here
           },
         ]);
+
         if (profileError) {
           setError(profileError.message);
           return;
         }
-        router.push("/app");
       }
+
+      // 3) go to app root; it will redirect by role
+      router.push("/app");
     } finally {
       setLoading(false);
     }
@@ -56,8 +72,11 @@ export default function SignUpPage() {
       <div className="max-w-md w-full bg-white/10 backdrop-blur-xl rounded-xl p-6 border border-white/20">
         <h1 className="text-2xl font-bold mb-4 text-center">Sign Up</h1>
         {error && (
-          <div className="mb-3 text-red-400 text-sm bg-red-500/10 p-2 rounded">{error}</div>
+          <div className="mb-3 text-red-400 text-sm bg-red-500/10 p-2 rounded">
+            {error}
+          </div>
         )}
+
         <form onSubmit={handleSignUp} className="space-y-4">
           <input
             type="email"
@@ -80,11 +99,20 @@ export default function SignUpPage() {
           <select
             className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/20 text-white"
             value={role}
-            onChange={(e) => setRole(e.target.value)}
+            onChange={(e) => setRole(e.target.value as "student" | "professor")}
           >
             <option value="student">Student</option>
             <option value="professor">Professor</option>
           </select>
+
+          <input
+            type="text"
+            placeholder="School ID (required)"
+            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/20 text-white"
+            value={schoolId}
+            onChange={(e) => setSchoolId(e.target.value)}
+            required
+          />
 
           <input
             type="password"
@@ -112,6 +140,7 @@ export default function SignUpPage() {
             {loading ? "Signing up..." : "Sign Up"}
           </button>
         </form>
+
         <p className="mt-4 text-center text-sm text-slate-300">
           Already have an account?{" "}
           <a href="/auth/signin" className="text-cyan-300 hover:underline">
