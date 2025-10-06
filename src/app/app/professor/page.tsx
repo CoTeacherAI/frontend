@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
+import Link from "next/link";
 
 type Semester = "Fall" | "Spring" | "Summer" | "";
 
@@ -156,9 +157,17 @@ export default function ProfessorDashboard() {
             {courses.map((c) => (
               <li
                 key={c.id}
-                className="rounded-xl border border-white/15 bg-white/5 p-4 hover:bg-white/10 transition"
+                className="relative rounded-xl border border-white/15 bg-white/5 p-4 hover:bg-white/10 transition"
               >
-                <div className="flex items-start justify-between gap-3">
+                {/* Full-card click target */}
+                <Link
+                  href={`/courses/${c.id}`}
+                  className="absolute inset-0"
+                  aria-label={`Open ${c.name}`}
+                />
+
+                {/* Content stays above the click overlay */}
+                <div className="relative z-10 flex items-start justify-between gap-3">
                   <div>
                     <div className="flex items-center gap-2">
                       <div className="text-xs rounded-full border border-white/15 bg-white/5 px-2 py-0.5">
@@ -173,7 +182,8 @@ export default function ProfessorDashboard() {
                     <h4 className="mt-2 font-semibold">{c.name}</h4>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  {/* Action buttons remain clickable via z-index */}
+                  <div className="relative z-10 flex items-center gap-2">
                     <button
                       onClick={() => setOpenEditFor(c)}
                       className="rounded-lg border border-white/15 hover:border-white/40 px-2 py-1 transition"
@@ -194,11 +204,12 @@ export default function ProfessorDashboard() {
                 </div>
 
                 {c.description ? (
-                  <p className="mt-2 text-sm text-slate-300 line-clamp-3">{c.description}</p>
+                  <p className="relative z-10 mt-2 text-sm text-slate-300 line-clamp-3">{c.description}</p>
                 ) : (
-                  <p className="mt-2 text-sm text-slate-400">No description</p>
+                  <p className="relative z-10 mt-2 text-sm text-slate-400">No description</p>
                 )}
-                <div className="mt-3 text-sm text-slate-400">
+
+                <div className="relative z-10 mt-3 text-sm text-slate-400">
                   {typeof c.credits === "number" ? `${c.credits} credits` : "—"}
                 </div>
               </li>
