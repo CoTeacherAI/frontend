@@ -38,7 +38,7 @@ export default function SignInPage() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="max-w-md w-full bg-white/10 backdrop-blur-xl rounded-xl p-6 border border-white/20">
-        <h1 className="text-2xl font-bold mb-4 text-center">Log In</h1>
+        <h1 className="text-2xl font-bold mb-4 text-center">Welcome Back!</h1>
         {error && (
           <div className="mb-3 text-red-400 text-sm bg-red-500/10 p-2 rounded">
             {error}

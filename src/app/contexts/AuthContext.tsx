@@ -10,6 +10,7 @@ interface Profile {
   email: string;
   role: "student" | "professor";
   username: string;
+  school_id: string | null; // <-- add this
 }
 
 interface AuthContextType {
@@ -17,6 +18,7 @@ interface AuthContextType {
   profile: Profile | null;
   userRole: "student" | "professor" | null;
   username: string | null;
+  schoolId: string | null; // <-- add this
   loading: boolean;
   signOut: () => Promise<void>;
 }
@@ -28,7 +30,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Bootstrap session and subscribe to auth changes
   useEffect(() => {
     let mounted = true;
 
@@ -49,15 +50,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // Load profile when user changes
   useEffect(() => {
     if (!user) {
       setProfile(null);
       return;
     }
-
     let cancelled = false;
-
     supabase
       .from("profiles")
       .select("*")
@@ -72,7 +70,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setProfile(data as Profile);
         }
       });
-
     return () => {
       cancelled = true;
     };
@@ -86,10 +83,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const userRole = profile?.role ?? null;
   const username = profile?.username ?? null;
+  const schoolId = profile?.school_id ?? null;
 
   return (
     <AuthContext.Provider
-      value={{ user, profile, userRole, username, loading, signOut }}
+      value={{ user, profile, userRole, username, schoolId, loading, signOut }}
     >
       {children}
     </AuthContext.Provider>
