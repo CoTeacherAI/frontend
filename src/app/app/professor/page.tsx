@@ -25,7 +25,7 @@ type Course = {
   code: string;
   name: string;
   description: string | null;
-  semester: Exclude<Semester, ""> | null; // stored null or "Fall|Spring|Summer"
+  semester: Exclude<Semester, ""> | null;
   year: number | null;
   credits: number | null;
   archived: boolean;
@@ -157,17 +157,10 @@ export default function ProfessorDashboard() {
             {courses.map((c) => (
               <li
                 key={c.id}
-                className="relative rounded-xl border border-white/15 bg-white/5 p-4 hover:bg-white/10 transition"
+                className="relative flex h-56 flex-col rounded-xl border border-white/15 bg-white/5 p-4 pb-12 transition hover:bg-white/10"
               >
-                {/* Full-card click target */}
-                <Link
-                  href={`/courses/${c.id}`}
-                  className="absolute inset-0"
-                  aria-label={`Open ${c.name}`}
-                />
-
-                {/* Content stays above the click overlay */}
-                <div className="relative z-10 flex items-start justify-between gap-3">
+                {/* Top row: code/term + actions */}
+                <div className="mb-1 flex items-start justify-between gap-3">
                   <div>
                     <div className="flex items-center gap-2">
                       <div className="text-xs rounded-full border border-white/15 bg-white/5 px-2 py-0.5">
@@ -182,11 +175,10 @@ export default function ProfessorDashboard() {
                     <h4 className="mt-2 font-semibold">{c.name}</h4>
                   </div>
 
-                  {/* Action buttons remain clickable via z-index */}
-                  <div className="relative z-10 flex items-center gap-2">
+                  <div className="flex items-center gap-2">
                     <button
                       onClick={() => setOpenEditFor(c)}
-                      className="rounded-lg border border-white/15 hover:border-white/40 px-2 py-1 transition"
+                      className="rounded-lg border border-white/15 px-2 py-1 transition hover:border-white/40"
                       title="Edit course"
                       aria-label={`Edit ${c.name}`}
                     >
@@ -194,7 +186,7 @@ export default function ProfessorDashboard() {
                     </button>
                     <button
                       onClick={() => setOpenDeleteFor(c)}
-                      className="rounded-lg border border-red-400/30 text-red-300 hover:border-red-400/60 px-2 py-1 transition"
+                      className="rounded-lg border border-red-400/30 px-2 py-1 text-red-300 transition hover:border-red-400/60"
                       title="Delete course"
                       aria-label={`Delete ${c.name}`}
                     >
@@ -203,14 +195,24 @@ export default function ProfessorDashboard() {
                   </div>
                 </div>
 
+                {/* Description with reserved space + ellipsis */}
                 {c.description ? (
-                  <p className="relative z-10 mt-2 text-sm text-slate-300 line-clamp-3">{c.description}</p>
+                  <p className="mt-1 text-sm text-slate-300 line-clamp-3 min-h-[60px]">{c.description}</p>
                 ) : (
-                  <p className="relative z-10 mt-2 text-sm text-slate-400">No description</p>
+                  <p className="mt-1 text-sm text-slate-400 min-h-[60px]">No description</p>
                 )}
 
-                <div className="relative z-10 mt-3 text-sm text-slate-400">
-                  {typeof c.credits === "number" ? `${c.credits} credits` : "—"}
+                {/* Fixed bottom bar: credits (left) + View (right) */}
+                <div className="absolute inset-x-4 bottom-3 flex items-center justify-between">
+                  <div className="text-sm text-slate-400">
+                    {typeof c.credits === "number" ? `${c.credits} credits` : "—"}
+                  </div>
+                  <Link
+                    href={`/courses/${c.id}`}
+                    className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-3 py-1.5 transition hover:border-white/40"
+                  >
+                    View
+                  </Link>
                 </div>
               </li>
             ))}
@@ -514,7 +516,7 @@ function ConfirmDeleteModal({
         <button
           onClick={handleDelete}
           disabled={busy}
-          className="inline-flex items-center gap-2 rounded-lg border border-red-400/40 text-red-200 px-4 py-2 hover:border-red-400/70 transition disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-lg border border-red-400/40 px-4 py-2 text-red-200 transition hover:border-red-400/70 disabled:opacity-50"
         >
           {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
           Delete
@@ -538,12 +540,12 @@ function ModalShell({
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-xl rounded-2xl border border-white/15 bg-white/10 backdrop-blur-xl p-6 shadow-[0_8px_30px_rgba(2,8,23,0.45)]">
-        <div className="flex items-center justify-between mb-4">
+      <div className="relative w-full max-w-xl rounded-2xl border border-white/15 bg-white/10 p-6 shadow-[0_8px_30px_rgba(2,8,23,0.45)] backdrop-blur-xl">
+        <div className="mb-4 flex items-center justify-between">
           <h3 className="text-lg font-semibold">{title}</h3>
           <button
             onClick={onClose}
-            className="rounded-lg p-2 hover:bg-white/10 transition"
+            className="rounded-lg p-2 transition hover:bg-white/10"
             aria-label="Close"
           >
             <X className="h-4 w-4 text-slate-300" />
@@ -581,7 +583,7 @@ function Input({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       required={required}
-      className="w-full rounded-lg bg-white/5 border border-white/20 px-3 py-2 text-white outline-none focus:border-cyan-300"
+      className="w-full rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-white outline-none focus:border-cyan-300"
     />
   );
 }
@@ -601,7 +603,7 @@ function Textarea({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       rows={3}
-      className="w-full rounded-lg bg-white/5 border border-white/20 px-3 py-2 text-white outline-none focus:border-cyan-300 resize-none"
+      className="w-full resize-none rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-white outline-none focus:border-cyan-300"
     />
   );
 }
@@ -620,7 +622,7 @@ function Select<T extends string>({
     <select
       value={value}
       onChange={(e) => onChange(e.target.value as T)}
-      className="w-full rounded-lg bg-white/5 border border-white/20 px-3 py-2 text-white outline-none focus:border-cyan-300"
+      className="w-full rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-white outline-none focus:border-cyan-300"
     >
       {options.map((opt) => (
         <option key={opt || "empty"} value={opt} className="bg-slate-900 text-white">
@@ -632,11 +634,11 @@ function Select<T extends string>({
 }
 
 function TwoCol({ children }: { children: React.ReactNode }) {
-  return <div className="grid md:grid-cols-2 gap-4">{children}</div>;
+  return <div className="grid gap-4 md:grid-cols-2">{children}</div>;
 }
 
 function ThreeCol({ children }: { children: React.ReactNode }) {
-  return <div className="grid md:grid-cols-3 gap-4">{children}</div>;
+  return <div className="grid gap-4 md:grid-cols-3">{children}</div>;
 }
 
 function FooterButtons({
@@ -653,14 +655,14 @@ function FooterButtons({
       <button
         type="button"
         onClick={onCancel}
-        className="rounded-lg border border-white/20 px-4 py-2 hover:border-white/40 transition"
+        className="rounded-lg border border-white/20 px-4 py-2 transition hover:border-white/40"
       >
         Cancel
       </button>
       <button
         type="submit"
         disabled={primaryDisabled}
-        className="rounded-lg bg-cyan-400/90 text-slate-900 font-semibold px-4 py-2 hover:bg-cyan-300 transition disabled:opacity-50"
+        className="rounded-lg bg-cyan-400/90 px-4 py-2 font-semibold text-slate-900 transition hover:bg-cyan-300 disabled:opacity-50"
       >
         {primaryLabel}
       </button>
@@ -670,7 +672,7 @@ function FooterButtons({
 
 function AlertError({ message }: { message: string }) {
   return (
-    <div className="mb-3 rounded-lg border border-red-500/30 bg-red-500/15 text-red-200 px-3 py-2 text-sm">
+    <div className="mb-3 rounded-lg border border-red-500/30 bg-red-500/15 px-3 py-2 text-sm text-red-200">
       {message}
     </div>
   );
