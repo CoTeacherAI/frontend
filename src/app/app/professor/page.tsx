@@ -4,14 +4,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   GraduationCap,
-  Users,
-  Settings,
-  BookOpen,
   Plus,
   X,
   Pencil,
   Trash2,
-  Loader2,
+  Loader2, 
 } from "lucide-react";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
@@ -100,44 +97,10 @@ export default function ProfessorDashboard() {
         )}
       </div>
 
-      {/* Summary cards */}
-      <div className="grid md:grid-cols-2 gap-6 mb-8">
-        <div className="rounded-xl border border-white/15 bg-white/10 p-6">
-          <h2 className="text-xl font-semibold mb-2 flex items-center gap-2">
-            <BookOpen className="h-5 w-5 text-cyan-300" />
-            My Courses
-          </h2>
-          <p className="text-slate-300">Create and manage your courses.</p>
-        </div>
-
-        <div className="rounded-xl border border-white/15 bg-white/10 p-6">
-          <h2 className="text-xl font-semibold mb-2 flex items-center gap-2">
-            <Users className="h-5 w-5 text-cyan-300" />
-            Students
-          </h2>
-          <p className="text-slate-300">View enrolled students and their progress.</p>
-        </div>
-
-        <div className="rounded-xl border border-white/15 bg-white/10 p-6 md:col-span-2">
-          <h2 className="text-xl font-semibold mb-2 flex items-center gap-2">
-            <Settings className="h-5 w-5 text-cyan-300" />
-            AI Settings
-          </h2>
-          <p className="text-slate-300">Control your AI co-teacher behavior.</p>
-        </div>
-      </div>
-
       {/* Courses list */}
       <div className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-xl p-6">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center just sify-between mb-4">
           <h3 className="text-lg font-semibold">Your courses</h3>
-          <button
-            onClick={() => setOpenCreate(true)}
-            className="hidden sm:inline-flex items-center gap-2 rounded-lg border border-white/20 px-3 py-1.5 hover:border-white/40 transition"
-          >
-            <Plus className="h-4 w-4" />
-            New
-          </button>
         </div>
 
         {err && (
