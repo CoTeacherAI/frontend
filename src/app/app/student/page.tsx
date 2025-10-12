@@ -282,7 +282,7 @@ function CourseChatModal({
           {sending ? "Sending…" : "Send"}
         </button>
       </form>
-    </ModalShell>
+    </ModalShell>   
   );
 }
 
