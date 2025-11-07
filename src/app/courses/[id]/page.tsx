@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, BookOpen, Calendar } from "lucide-react";
+import { ArrowLeft, ChevronDown } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/app/contexts/AuthContext";
 import ChatPanel from "@/components/course/ChatPanel";
@@ -101,7 +101,7 @@ export default function CoursePage() {
 
   return (
     <main className="mx-auto max-w-[120rem] px-4 pt-24 pb-28">
-      {/* Header */}
+      {/* Top bar */}
       <div className="mb-4 flex items-center justify-between">
         <Link
           href={backHref}
@@ -112,41 +112,117 @@ export default function CoursePage() {
         </Link>
       </div>
 
-      <header className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-xl p-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
-            <BookOpen className="h-6 w-6 text-cyan-300" />
-            {course.name}
-          </h1>
-          <span className="text-xs rounded-full border border-white/15 bg-white/5 px-2 py-0.5">
-            {course.code}
-          </span>
-        </div>
-        <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1">
-            <Calendar className="h-4 w-4 text-cyan-300" />
-            {course.semester ? `${course.semester} ${course.year ?? ""}` : "No term"}
-          </span>
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1">
-            {typeof course.credits === "number" ? `${course.credits} credits` : "No credits"}
-          </span>
-        </div>
-        {course.description ? (
-          <p className="mt-3 text-slate-300/90">{course.description}</p>
-        ) : null}
-      </header>
+      {/* New layout: LEFT = dropdowns (details/materials/members), RIGHT = big chat */}
+      <div className="mt-6 grid gap-6 lg:grid-cols-12">
+        {/* LEFT COLUMN */}
+        <aside className="lg:col-span-4 xl:col-span-3 flex flex-col gap-6">
+          {/* Course details dropdown */}
+          <CourseDetailsDropdown
+            course={{
+              description: course.description,
+              semester: course.semester,
+              year: course.year,
+              credits: course.credits,
+            }}
+            courseId={course.id}
+          />
 
-      {/* Layout: big chat + slim sidebar */}
-      <div className="mt-6 grid gap-6 lg:grid-cols-12 mb-24">
+          {/* Materials dropdown (unchanged component) */}
+          {isOwner ? <MaterialsPanel courseId={course.id} ownerId={course.owner_id} /> : null}
+
+          {/* Members dropdown (updated component below) */}
+          <MembersPanel courseId={course.id} isOwner={isOwner} />
+        </aside>
+
+        {/* RIGHT COLUMN */}
         <section className="lg:col-span-8 xl:col-span-9">
           <ChatPanel courseId={course.id} />
         </section>
-
-        <aside className="lg:col-span-4 xl:col-span-3 flex flex-col gap-6">
-          {isOwner ? <MaterialsPanel courseId={course.id} ownerId={course.owner_id} /> : null}
-          <MembersPanel courseId={course.id} isOwner={isOwner} />
-        </aside>
       </div>
     </main>
+  );
+}
+
+/* ---------- Local: Course Details dropdown ---------- */
+
+function CourseDetailsDropdown({
+  course,
+  courseId,
+}: {
+  course: {
+    description: string | null;
+    semester: Semester | null;
+    year: number | null;
+    credits: number | null;
+  };
+  courseId: string;
+}) {
+  const storageKey = `course_details_open_${courseId}`;
+  const [open, setOpen] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true; // default open
+    const saved = window.localStorage.getItem(storageKey);
+    return saved === null ? true : saved === "1";
+  });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(storageKey, open ? "1" : "0");
+    }
+  }, [open, storageKey]);
+
+  return (
+    <section className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-xl">
+      {/* Header / Toggle */}
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between gap-3 px-5 py-4"
+        aria-expanded={open}
+        aria-controls={`course-details-${courseId}`}
+      >
+        <div className="text-left">
+          <div className="text-base font-semibold">Course details</div>
+          <div className="text-xs text-slate-400">
+            Overview & description
+          </div>
+        </div>
+        <ChevronDown className={`h-5 w-5 transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+
+      {/* Body */}
+      <div
+        id={`course-details-${courseId}`}
+        className={`px-5 pb-5 transition-[grid-template-rows] ${
+          open ? "grid grid-rows-[1fr]" : "grid grid-rows-[0fr]"
+        }`}
+      >
+        <div className="overflow-hidden">
+          {course.description ? (
+            <p className="text-slate-300/90">{course.description}</p>
+          ) : (
+            <p className="text-slate-400 text-sm">No description provided.</p>
+          )}
+
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+            <div className="rounded-lg border border-white/10 bg-white/5 p-3">
+              <div className="text-xs text-slate-400">Semester</div>
+              <div className="font-medium">
+                {course.semester ? `${course.semester} ${course.year ?? ""}` : "—"}
+              </div>
+            </div>
+            <div className="rounded-lg border border-white/10 bg-white/5 p-3">
+              <div className="text-xs text-slate-400">Credits</div>
+              <div className="font-medium">
+                {typeof course.credits === "number" ? course.credits : "—"}
+              </div>
+            </div>
+            <div className="rounded-lg border border-white/10 bg-white/5 p-3">
+              <div className="text-xs text-slate-400">Access</div>
+              <div className="font-medium">Members-only</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
