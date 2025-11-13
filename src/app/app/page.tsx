@@ -19,5 +19,5 @@ export default function AppIndex() {
     }
   }, [user, userRole, loading, router]);
 
-  return <p className="text-center pt-32">Loading your dashboard...</p>;
+  return <p className="text-center pt-32 text-stone-700">Loading your dashboard...</p>;
 }

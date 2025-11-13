@@ -34,7 +34,7 @@ export default function HeroDemo() {
   }, []);
 
   return (
-    <div className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-xl px-5 py-6 md:px-8 md:py-8">
+    <div className="rounded-2xl border border-stone-200/60 bg-white/70 backdrop-blur-xl px-5 py-6 md:px-8 md:py-8">
       <Timeline step={step} />
       <div className="mt-5 md:mt-7">
         <AnimatePresence mode="wait">
@@ -81,15 +81,15 @@ function Timeline({ step }: { step: Step }) {
             <div
               className={
                 "h-9 w-9 grid place-items-center rounded-full border " +
-                (active ? "border-cyan-300/60 bg-cyan-300/15" : "border-white/15 bg-white/5")
+                (active ? "border-orange-500/60 bg-orange-100/60" : "border-stone-300/60 bg-stone-100/40")
               }
             >
-              <it.icon className={active ? "h-4.5 w-4.5 text-cyan-300" : "h-4.5 w-4.5 text-white/70"} />
+              <it.icon className={active ? "h-4.5 w-4.5 text-orange-500" : "h-4.5 w-4.5 text-stone-400"} />
             </div>
-            <span className={"text-sm md:text-base " + (active ? "text-slate-100" : "text-slate-300/75")}>
+            <span className={"text-sm md:text-base " + (active ? "text-stone-900" : "text-stone-600")}>
               {it.label}
             </span>
-            {i < items.length - 1 && <div className="w-10 md:w-14 h-px bg-white/15 mx-1.5 md:mx-2" />}
+            {i < items.length - 1 && <div className="w-10 md:w-14 h-px bg-stone-300/60 mx-1.5 md:mx-2" />}
           </div>
         );
       })}
@@ -116,44 +116,44 @@ function UploadScene() {
   ];
 
   return (
-    <div className="rounded-2xl border border-white/15 bg-white/5 p-4 md:p-6">
+    <div className="rounded-2xl border border-stone-200/60 bg-white/50 p-4 md:p-6">
       <div className="flex items-center gap-2">
-        <Upload className="h-5 w-5 text-cyan-300" />
+        <Upload className="h-5 w-5 text-orange-500" />
         <h3 className="text-lg md:text-xl font-semibold">Professor uploads course content</h3>
       </div>
-      <p className="mt-1 text-sm md:text-base text-slate-300/90">
-        Drag & drop materials — we’ll parse and index everything securely.
+      <p className="mt-1 text-sm md:text-base text-stone-700">
+        Drag & drop materials — we&apos;ll parse and index everything securely.
       </p>
 
       <div className="mt-4 grid md:grid-cols-2 gap-4">
-        <div className="rounded-xl border border-white/10 bg-white/5 p-3 md:p-4">
-          <div className="text-xs uppercase tracking-wide text-slate-300/75">Files</div>
+        <div className="rounded-xl border border-stone-200/60 bg-white/50 p-3 md:p-4">
+          <div className="text-xs uppercase tracking-wide text-stone-600">Files</div>
           <ul className="mt-2 space-y-2">
             {files.map((f) => (
-              <li key={f.name} className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5">
+              <li key={f.name} className="flex items-center justify-between rounded-lg border border-stone-200/60 bg-white/60 px-2.5 py-1.5">
                 <div className="flex items-center gap-2">
-                  <f.icon className="h-4 w-4 text-cyan-300" />
-                  <span className="text-sm">{f.name}</span>
+                  <f.icon className="h-4 w-4 text-orange-500" />
+                  <span className="text-sm text-stone-800">{f.name}</span>
                 </div>
-                <span className="text-xs text-slate-300/70">{f.size}</span>
+                <span className="text-xs text-stone-600">{f.size}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="rounded-xl border border-white/10 bg-white/5 p-3 md:p-4">
-          <div className="text-xs uppercase tracking-wide text-slate-300/75">Upload progress</div>
-          <div className="mt-2 h-3 w-full rounded-full bg-white/10 overflow-hidden">
+        <div className="rounded-xl border border-stone-200/60 bg-white/50 p-3 md:p-4">
+          <div className="text-xs uppercase tracking-wide text-stone-600">Upload progress</div>
+          <div className="mt-2 h-3 w-full rounded-full bg-stone-200/60 overflow-hidden">
             <motion.div
-              className="h-full bg-cyan-300"
+              className="h-full bg-orange-500"
               style={{ borderRadius: 9999 }}
               animate={{ width: `${progress}%` }}
               initial={{ width: 0 }}
               transition={{ ease: "easeOut", duration: 0.2 }}
             />
           </div>
-          <div className="mt-2 text-xs text-slate-300/80">{progress}%</div>
-          <div className="mt-3 text-xs text-slate-300/75">Secure upload with per-course access control.</div>
+          <div className="mt-2 text-xs text-stone-700">{progress}%</div>
+          <div className="mt-3 text-xs text-stone-600">Secure upload with per-course access control.</div>
         </div>
       </div>
     </div>
@@ -169,12 +169,12 @@ function AnalyzeScene() {
     { icon: Shield, title: "Guardrails set", desc: "Graded items locked; hints-only mode enabled." },
   ];
   return (
-    <div className="rounded-2xl border border-white/15 bg-white/5 p-4 md:p-6">
+    <div className="rounded-2xl border border-stone-200/60 bg-white/50 p-4 md:p-6">
       <div className="flex items-center gap-2">
-        <Database className="h-5 w-5 text-cyan-300" />
+        <Database className="h-5 w-5 text-amber-500" />
         <h3 className="text-lg md:text-xl font-semibold">AI analyzes content and stores it for the course</h3>
       </div>
-      <p className="mt-1 text-sm md:text-base text-slate-300/90">
+      <p className="mt-1 text-sm md:text-base text-stone-700">
         We build a private knowledge base for this class. Retrieval adds citations; answers follow integrity rules.
       </p>
 
@@ -182,24 +182,24 @@ function AnalyzeScene() {
         {rows.map((r, i) => (
           <motion.div
             key={r.title}
-            className="rounded-xl border border-white/10 bg-white/5 p-3 md:p-4"
+            className="rounded-xl border border-stone-200/60 bg-white/50 p-3 md:p-4"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 * i }}
           >
             <div className="flex items-center gap-2">
-              <r.icon className="h-4.5 w-4.5 text-cyan-300" />
-              <div className="font-medium">{r.title}</div>
+              <r.icon className="h-4.5 w-4.5 text-amber-500" />
+              <div className="font-medium text-stone-900">{r.title}</div>
             </div>
-            <div className="mt-1 text-sm text-slate-300/85">{r.desc}</div>
+            <div className="mt-1 text-sm text-stone-700">{r.desc}</div>
             <motion.div
-              className="mt-3 h-2 w-full rounded-full bg-white/10 overflow-hidden"
+              className="mt-3 h-2 w-full rounded-full bg-stone-200/60 overflow-hidden"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.25 }}
             >
               <motion.div
-                className="h-full bg-cyan-300"
+                className="h-full bg-amber-500"
                 style={{ borderRadius: 9999 }}
                 initial={{ width: "0%" }}
                 animate={{ width: "100%" }}
@@ -210,10 +210,10 @@ function AnalyzeScene() {
         ))}
       </div>
 
-      <div className="mt-4 rounded-xl border border-white/10 bg-white/5 p-3 md:p-4">
+      <div className="mt-4 rounded-xl border border-stone-200/60 bg-white/50 p-3 md:p-4">
         <div className="flex items-center gap-2">
-          <Check className="h-4 w-4 text-cyan-300" />
-          <div className="text-sm md:text-base">
+          <Check className="h-4 w-4 text-amber-500" />
+          <div className="text-sm md:text-base text-stone-800">
             Course KB: <span className="font-medium">Operating Systems</span> • 124 chunks • citations on
           </div>
         </div>
@@ -226,12 +226,12 @@ function AnalyzeScene() {
 
 function ChatScene() {
   return (
-    <div className="rounded-2xl border border-white/15 bg-white/5 p-4 md:p-6">
+    <div className="rounded-2xl border border-stone-200/60 bg-white/50 p-4 md:p-6">
       <div className="flex items-center gap-2">
-        <MessageSquare className="h-5 w-5 text-cyan-300" />
+        <MessageSquare className="h-5 w-5 text-orange-500" />
         <h3 className="text-lg md:text-xl font-semibold">Student chats with the AI tutor</h3>
       </div>
-      <p className="mt-1 text-sm md:text-base text-slate-300/90">Topic: Operating Systems — Understanding context switches.</p>
+      <p className="mt-1 text-sm md:text-base text-stone-700">Topic: Operating Systems — Understanding context switches.</p>
 
       <div className="mt-4 space-y-3 md:space-y-4">
         <Bubble who="student">What is a context switch and why is it needed?</Bubble>
@@ -262,7 +262,7 @@ function ChatScene() {
         </Bubble>
       </div>
 
-      <div className="mt-3 text-xs text-slate-300/75">
+      <div className="mt-3 text-xs text-stone-600">
         Guided hints—no final solutions to graded items. Sources are always cited in-course.
       </div>
     </div>
@@ -277,8 +277,8 @@ function Bubble({ who, children }: { who: "student" | "ai"; children: React.Reac
         className={
           "rounded-2xl px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base " +
           (isAI
-            ? "bg-white/10 border border-white/15"
-            : "bg-cyan-300/20 border border-cyan-300/30 text-slate-100")
+            ? "bg-white/60 border border-stone-200/60 text-stone-900"
+            : "bg-orange-100 border border-orange-300/60 text-stone-900")
         }
       >
         {children}
@@ -319,7 +319,7 @@ function Chip({ children }: { children: React.ReactNode }) {
 
 function HintList({ items }: { items: string[] }) {
   return (
-    <ul className="mt-2 list-disc list-inside text-sm text-slate-200/95">
+    <ul className="mt-2 list-disc list-inside text-sm text-stone-700">
       {items.map((t) => (
         <li key={t}>{t}</li>
       ))}

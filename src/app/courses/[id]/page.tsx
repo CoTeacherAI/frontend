@@ -72,7 +72,7 @@ export default function CoursePage() {
   if (busy) {
     return (
       <main className="mx-auto max-w-7xl px-4 pt-24 pb-28">
-        <div className="rounded-2xl border border-white/15 bg-white/10 p-6">
+        <div className="rounded-2xl border border-stone-200/60 bg-white/70 p-6 text-stone-900">
           Loading course…
         </div>
       </main>
@@ -82,12 +82,12 @@ export default function CoursePage() {
   if (err || !course) {
     return (
       <main className="mx-auto max-w-7xl px-4 pt-24 pb-28">
-        <div className="rounded-2xl border border-white/15 bg-white/10 p-6">
-          <p className="text-red-200">{err ?? "Not found"}</p>
+        <div className="rounded-2xl border border-stone-200/60 bg-white/70 p-6">
+          <p className="text-red-600">{err ?? "Not found"}</p>
           <div className="mt-4">
             <Link
               href="/app"
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 hover:border-white/40"
+              className="inline-flex items-center gap-2 rounded-full border border-stone-300 px-4 py-2 hover:border-stone-400 text-stone-700"
             >
               <ArrowLeft className="h-4 w-4" /> Back
             </Link>
@@ -105,7 +105,7 @@ export default function CoursePage() {
       <div className="mb-4 flex items-center justify-between">
         <Link
           href={backHref}
-          className="inline-flex items-center gap-2 text-slate-300 hover:text-slate-100 transition"
+          className="inline-flex items-center gap-2 text-stone-600 hover:text-stone-800 transition"
         >
           <ArrowLeft className="h-4 w-4" />
           Back
@@ -171,7 +171,7 @@ function CourseDetailsDropdown({
   }, [open, storageKey]);
 
   return (
-    <section className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-xl">
+    <section className="rounded-2xl border border-stone-200/60 bg-white/70 backdrop-blur-xl">
       {/* Header / Toggle */}
       <button
         type="button"
@@ -181,12 +181,12 @@ function CourseDetailsDropdown({
         aria-controls={`course-details-${courseId}`}
       >
         <div className="text-left">
-          <div className="text-base font-semibold">Course details</div>
-          <div className="text-xs text-slate-400">
+          <div className="text-base font-semibold text-stone-900">Course details</div>
+          <div className="text-xs text-stone-600">
             Overview & description
           </div>
         </div>
-        <ChevronDown className={`h-5 w-5 transition-transform ${open ? "rotate-180" : ""}`} />
+        <ChevronDown className={`h-5 w-5 transition-transform text-stone-700 ${open ? "rotate-180" : ""}`} />
       </button>
 
       {/* Body */}
@@ -198,27 +198,27 @@ function CourseDetailsDropdown({
       >
         <div className="overflow-hidden">
           {course.description ? (
-            <p className="text-slate-300/90">{course.description}</p>
+            <p className="text-stone-700">{course.description}</p>
           ) : (
-            <p className="text-slate-400 text-sm">No description provided.</p>
+            <p className="text-stone-600 text-sm">No description provided.</p>
           )}
 
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
-            <div className="rounded-lg border border-white/10 bg-white/5 p-3">
-              <div className="text-xs text-slate-400">Semester</div>
-              <div className="font-medium">
+            <div className="rounded-lg border border-stone-200/60 bg-white/60 p-3">
+              <div className="text-xs text-stone-600">Semester</div>
+              <div className="font-medium text-stone-900">
                 {course.semester ? `${course.semester} ${course.year ?? ""}` : "—"}
               </div>
             </div>
-            <div className="rounded-lg border border-white/10 bg-white/5 p-3">
-              <div className="text-xs text-slate-400">Credits</div>
-              <div className="font-medium">
+            <div className="rounded-lg border border-stone-200/60 bg-white/60 p-3">
+              <div className="text-xs text-stone-600">Credits</div>
+              <div className="font-medium text-stone-900">
                 {typeof course.credits === "number" ? course.credits : "—"}
               </div>
             </div>
-            <div className="rounded-lg border border-white/10 bg-white/5 p-3">
-              <div className="text-xs text-slate-400">Access</div>
-              <div className="font-medium">Members-only</div>
+            <div className="rounded-lg border border-stone-200/60 bg-white/60 p-3">
+              <div className="text-xs text-stone-600">Access</div>
+              <div className="font-medium text-stone-900">Members-only</div>
             </div>
           </div>
         </div>

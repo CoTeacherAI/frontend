@@ -81,15 +81,15 @@ export default function ProfessorDashboard() {
   return (
     <div className="min-h-screen pt-24 px-4 max-w-6xl mx-auto">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          <GraduationCap className="h-7 w-7 text-cyan-300" />
+        <h1 className="text-3xl font-bold flex items-center gap-2 text-stone-900">
+          <GraduationCap className="h-7 w-7 text-orange-500" />
           Professor Dashboard
         </h1>
 
         {canUsePage && (
           <button
             onClick={() => setOpenCreate(true)}
-            className="inline-flex items-center gap-2 rounded-lg bg-cyan-400/90 text-slate-900 font-semibold px-4 py-2 hover:bg-cyan-300 transition"
+            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 text-slate-900 font-semibold px-4 py-2 hover:from-orange-400 hover:to-amber-400 transition"
           >
             <Plus className="h-4 w-4" />
             Create course
@@ -98,50 +98,50 @@ export default function ProfessorDashboard() {
       </div>
 
       {/* Courses list */}
-      <div className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-xl p-6">
+      <div className="rounded-2xl border border-stone-200/60 bg-white/70 backdrop-blur-xl p-6">
         <div className="flex items-center just sify-between mb-4">
-          <h3 className="text-lg font-semibold">Your courses</h3>
+          <h3 className="text-lg font-semibold text-stone-900">Your courses</h3>
         </div>
 
         {err && (
-          <div className="mb-4 rounded-lg border border-red-500/30 bg-red-500/15 text-red-200 px-3 py-2 text-sm">
+          <div className="mb-4 rounded-lg border border-red-300 bg-red-100 text-red-700 px-3 py-2 text-sm">
             {err}
           </div>
         )}
 
         {fetching ? (
-          <div className="text-slate-300">Loading…</div>
+          <div className="text-stone-600">Loading…</div>
         ) : courses.length === 0 ? (
-          <div className="text-slate-300">
-            No courses yet. Click <span className="text-cyan-300 font-medium">Create course</span> to add your first.
+          <div className="text-stone-600">
+            No courses yet. Click <span className="text-orange-500 font-medium">Create course</span> to add your first.
           </div>
         ) : (
           <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {courses.map((c) => (
               <li
                 key={c.id}
-                className="relative flex h-56 flex-col rounded-xl border border-white/15 bg-white/5 p-4 pb-12 transition hover:bg-white/10"
+                className="relative flex h-56 flex-col rounded-xl border border-stone-200/60 bg-white/60 p-4 pb-12 transition hover:bg-white/80"
               >
                 {/* Top row: code/term + actions */}
                 <div className="mb-1 flex items-start justify-between gap-3">
                   <div>
                     <div className="flex items-center gap-2">
-                      <div className="text-xs rounded-full border border-white/15 bg-white/5 px-2 py-0.5">
+                      <div className="text-xs rounded-full border border-stone-200/60 bg-white/80 px-2 py-0.5 text-stone-700">
                         {c.code}
                       </div>
                       {c.semester && c.year ? (
-                        <div className="text-xs text-slate-400">
+                        <div className="text-xs text-stone-600">
                           {c.semester} {c.year}
                         </div>
                       ) : null}
                     </div>
-                    <h4 className="mt-2 font-semibold">{c.name}</h4>
+                    <h4 className="mt-2 font-semibold text-stone-900">{c.name}</h4>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setOpenEditFor(c)}
-                      className="rounded-lg border border-white/15 px-2 py-1 transition hover:border-white/40"
+                      className="rounded-lg border border-stone-300 px-2 py-1 transition hover:border-stone-400 text-stone-700"
                       title="Edit course"
                       aria-label={`Edit ${c.name}`}
                     >
@@ -149,7 +149,7 @@ export default function ProfessorDashboard() {
                     </button>
                     <button
                       onClick={() => setOpenDeleteFor(c)}
-                      className="rounded-lg border border-red-400/30 px-2 py-1 text-red-300 transition hover:border-red-400/60"
+                      className="rounded-lg border border-red-300 px-2 py-1 text-red-600 transition hover:border-red-400"
                       title="Delete course"
                       aria-label={`Delete ${c.name}`}
                     >
@@ -160,19 +160,19 @@ export default function ProfessorDashboard() {
 
                 {/* Description with reserved space + ellipsis */}
                 {c.description ? (
-                  <p className="mt-1 text-sm text-slate-300 line-clamp-3 min-h-[60px]">{c.description}</p>
+                  <p className="mt-1 text-sm text-stone-700 line-clamp-3 min-h-[60px]">{c.description}</p>
                 ) : (
-                  <p className="mt-1 text-sm text-slate-400 min-h-[60px]">No description</p>
+                  <p className="mt-1 text-sm text-stone-600 min-h-[60px]">No description</p>
                 )}
 
                 {/* Fixed bottom bar: credits (left) + View (right) */}
                 <div className="absolute inset-x-4 bottom-3 flex items-center justify-between">
-                  <div className="text-sm text-slate-400">
+                  <div className="text-sm text-stone-600">
                     {typeof c.credits === "number" ? `${c.credits} credits` : "—"}
                   </div>
                   <Link
                     href={`/courses/${c.id}`}
-                    className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-3 py-1.5 transition hover:border-white/40"
+                    className="inline-flex items-center gap-2 rounded-lg border border-stone-300 px-3 py-1.5 transition hover:border-stone-400 text-stone-700"
                   >
                     View
                   </Link>
@@ -463,7 +463,7 @@ function ConfirmDeleteModal({
   return (
     <ModalShell title="Delete course" onClose={onClose}>
       {err && <AlertError message={err} />}
-      <p className="text-slate-300">
+      <p className="text-stone-700">
         Are you sure you want to delete <span className="font-semibold">{course.name}</span>? This
         action cannot be undone.
       </p>
@@ -472,14 +472,14 @@ function ConfirmDeleteModal({
         <button
           type="button"
           onClick={onClose}
-          className="rounded-lg border border-white/20 px-4 py-2 hover:border-white/40 transition"
+          className="rounded-lg border border-stone-300 px-4 py-2 hover:border-stone-400 transition text-stone-700"
         >
           Cancel
         </button>
         <button
           onClick={handleDelete}
           disabled={busy}
-          className="inline-flex items-center gap-2 rounded-lg border border-red-400/40 px-4 py-2 text-red-200 transition hover:border-red-400/70 disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-lg border border-red-400 px-4 py-2 text-red-600 transition hover:border-red-500 hover:bg-red-50 disabled:opacity-50"
         >
           {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
           Delete
@@ -502,16 +502,16 @@ function ModalShell({
 }) {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-xl rounded-2xl border border-white/15 bg-white/10 p-6 shadow-[0_8px_30px_rgba(2,8,23,0.45)] backdrop-blur-xl">
+      <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative w-full max-w-xl rounded-2xl border border-stone-200/60 bg-white/80 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.15)] backdrop-blur-xl">
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-lg font-semibold">{title}</h3>
+          <h3 className="text-lg font-semibold text-stone-900">{title}</h3>
           <button
             onClick={onClose}
-            className="rounded-lg p-2 transition hover:bg-white/10"
+            className="rounded-lg p-2 transition hover:bg-stone-100"
             aria-label="Close"
           >
-            <X className="h-4 w-4 text-slate-300" />
+            <X className="h-4 w-4 text-stone-600" />
           </button>
         </div>
         {children}
@@ -523,7 +523,7 @@ function ModalShell({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="text-sm text-slate-300">{label}</label>
+      <label className="text-sm text-stone-700">{label}</label>
       <div className="mt-1">{children}</div>
     </div>
   );
@@ -546,7 +546,7 @@ function Input({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       required={required}
-      className="w-full rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-white outline-none focus:border-cyan-300"
+      className="w-full rounded-lg border border-stone-300 bg-white/80 px-3 py-2 text-stone-900 placeholder:text-stone-500 outline-none focus:border-orange-400"
     />
   );
 }
@@ -566,7 +566,7 @@ function Textarea({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       rows={3}
-      className="w-full resize-none rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-white outline-none focus:border-cyan-300"
+      className="w-full resize-none rounded-lg border border-stone-300 bg-white/80 px-3 py-2 text-stone-900 placeholder:text-stone-500 outline-none focus:border-orange-400"
     />
   );
 }
@@ -585,10 +585,10 @@ function Select<T extends string>({
     <select
       value={value}
       onChange={(e) => onChange(e.target.value as T)}
-      className="w-full rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-white outline-none focus:border-cyan-300"
+      className="w-full rounded-lg border border-stone-300 bg-white/80 px-3 py-2 text-stone-900 outline-none focus:border-orange-400"
     >
       {options.map((opt) => (
-        <option key={opt || "empty"} value={opt} className="bg-slate-900 text-white">
+        <option key={opt || "empty"} value={opt} className="bg-white text-stone-900">
           {opt || "Select"}
         </option>
       ))}
@@ -618,14 +618,14 @@ function FooterButtons({
       <button
         type="button"
         onClick={onCancel}
-        className="rounded-lg border border-white/20 px-4 py-2 transition hover:border-white/40"
+        className="rounded-lg border border-stone-300 px-4 py-2 transition hover:border-stone-400 text-stone-700"
       >
         Cancel
       </button>
       <button
         type="submit"
         disabled={primaryDisabled}
-        className="rounded-lg bg-cyan-400/90 px-4 py-2 font-semibold text-slate-900 transition hover:bg-cyan-300 disabled:opacity-50"
+        className="rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 px-4 py-2 font-semibold text-slate-900 transition hover:from-orange-400 hover:to-amber-400 disabled:opacity-50"
       >
         {primaryLabel}
       </button>
@@ -635,7 +635,7 @@ function FooterButtons({
 
 function AlertError({ message }: { message: string }) {
   return (
-    <div className="mb-3 rounded-lg border border-red-500/30 bg-red-500/15 px-3 py-2 text-sm text-red-200">
+    <div className="mb-3 rounded-lg border border-red-300 bg-red-100 px-3 py-2 text-sm text-red-700">
       {message}
     </div>
   );

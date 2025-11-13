@@ -91,27 +91,27 @@ export default function StudentDashboard() {
 
   return (
     <div className="min-h-screen pt-24 px-4 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 flex items-center gap-2">
-        <BookOpen className="h-7 w-7 text-cyan-300" />
+      <h1 className="text-3xl font-bold mb-6 flex items-center gap-2 text-stone-900">
+        <BookOpen className="h-7 w-7 text-orange-500" />
         Student Dashboard
       </h1>
 
       {/* Courses */}
-      <div className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-xl p-6">
+      <div className="rounded-2xl border border-stone-200/60 bg-white/70 backdrop-blur-xl p-6">
         <div className="mb-4">
-          <h3 className="text-lg font-semibold">Your courses</h3>
+          <h3 className="text-lg font-semibold text-stone-900">Your courses</h3>
         </div>
 
         {err && (
-          <div className="mb-4 rounded-lg border border-red-500/30 bg-red-500/15 text-red-200 px-3 py-2 text-sm">
+          <div className="mb-4 rounded-lg border border-red-300 bg-red-100 text-red-700 px-3 py-2 text-sm">
             {err}
           </div>
         )}
 
         {fetching ? (
-          <div className="text-slate-300">Loading…</div>
+          <div className="text-stone-600">Loading…</div>
         ) : courses.length === 0 ? (
-          <div className="text-slate-300">
+          <div className="text-stone-600">
             No courses yet. Your professor can add you by school ID.
           </div>
         ) : (
@@ -119,29 +119,29 @@ export default function StudentDashboard() {
             {courses.map((c) => (
               <li
                 key={c.id}
-                className="relative rounded-xl border border-white/15 bg-white/5 p-4"
+                className="relative rounded-xl border border-stone-200/60 bg-white/60 p-4"
               >
                 {/* Header row */}
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <div className="flex items-center gap-2">
-                      <div className="text-xs rounded-full border border-white/15 bg-white/5 px-2 py-0.5">
+                      <div className="text-xs rounded-full border border-stone-200/60 bg-white/80 px-2 py-0.5 text-stone-700">
                         {c.code}
                       </div>
                       {c.semester && c.year ? (
-                        <div className="text-xs text-slate-400">
+                        <div className="text-xs text-stone-600">
                           {c.semester} {c.year}
                         </div>
                       ) : null}
                     </div>
-                    <h4 className="mt-2 font-semibold">{c.name}</h4>
+                    <h4 className="mt-2 font-semibold text-stone-900">{c.name}</h4>
                   </div>
 
                   {/* Small actions (top-right) */}
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setMembersFor(c)}
-                      className="rounded-lg border border-white/15 hover:border-white/40 px-2 py-1 text-sm transition"
+                      className="rounded-lg border border-stone-300 hover:border-stone-400 px-2 py-1 text-sm transition text-stone-700"
                       title="Members"
                       aria-label={`View members for ${c.name}`}
                     >
@@ -149,7 +149,7 @@ export default function StudentDashboard() {
                     </button>
                     <button
                       onClick={() => setChatFor(c)}
-                      className="rounded-lg border border-white/15 hover:border-white/40 px-2 py-1 text-sm transition"
+                      className="rounded-lg border border-stone-300 hover:border-stone-400 px-2 py-1 text-sm transition text-stone-700"
                       title="Chat"
                       aria-label={`Chat for ${c.name}`}
                     >
@@ -159,21 +159,21 @@ export default function StudentDashboard() {
                 </div>
 
                 {/* Description — fixed area with ellipsis */}
-                <p className="mt-2 text-sm text-slate-300 line-clamp-3 min-h-[3.5rem]">
+                <p className="mt-2 text-sm text-stone-700 line-clamp-3 min-h-[3.5rem]">
                   {c.description || "No description"}
                 </p>
 
                 {/* Bottom fixed row */}
                 <div className="mt-6 relative h-8">
                   {/* Credits bottom-left */}
-                  <div className="absolute left-0 bottom-0 text-sm text-slate-400">
+                  <div className="absolute left-0 bottom-0 text-sm text-stone-600">
                     {typeof c.credits === "number" ? `${c.credits} credits` : "—"}
                   </div>
                   {/* View bottom-right */}
                   <div className="absolute right-0 bottom-0">
                     <Link
                       href={`/courses/${c.id}`}
-                      className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-3 py-1.5 hover:border-white/40 transition"
+                      className="inline-flex items-center gap-2 rounded-lg border border-stone-300 px-3 py-1.5 hover:border-stone-400 transition text-stone-700"
                     >
                       View
                     </Link>
@@ -252,14 +252,14 @@ function CourseChatModal({
 
   return (
     <ModalShell title={`AI Chat — ${course.code}`} onClose={onClose}>
-      <div className="h-72 overflow-y-auto rounded-lg border border-white/10 bg-white/5 p-3 space-y-3">
+      <div className="h-72 overflow-y-auto rounded-lg border border-stone-200/60 bg-white/60 p-3 space-y-3">
         {chat.map((m, i) => (
           <div
             key={i}
             className={`max-w-[85%] rounded-xl px-3 py-2 text-sm ${
               m.role === "assistant"
-                ? "bg-white/10 border border-white/15"
-                : "ml-auto bg-cyan-500/20 border border-cyan-400/30"
+                ? "bg-white/80 border border-stone-200/60 text-stone-900"
+                : "ml-auto bg-orange-100 border border-orange-300/60 text-stone-900"
             }`}
           >
             {m.content}
@@ -272,12 +272,12 @@ function CourseChatModal({
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={`Ask about ${course.name}…`}
-          className="flex-1 rounded-lg bg-white/5 border border-white/20 px-3 py-2 text-white outline-none focus:border-cyan-300"
+          className="flex-1 rounded-lg bg-white/80 border border-stone-300 px-3 py-2 text-stone-900 placeholder:text-stone-500 outline-none focus:border-orange-400"
         />
         <button
           type="submit"
           disabled={sending || !input.trim()}
-          className="rounded-lg bg-cyan-400/90 px-4 py-2 font-semibold text-slate-900 transition hover:bg-cyan-300 disabled:opacity-50"
+          className="rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 px-4 py-2 font-semibold text-slate-900 transition hover:from-orange-400 hover:to-amber-400 disabled:opacity-50"
         >
           {sending ? "Sending…" : "Send"}
         </button>
@@ -347,25 +347,25 @@ function MembersModal({
   return (
     <ModalShell title={`Members — ${course.code}`} onClose={onClose}>
       {err && (
-        <div className="mb-3 rounded-lg border border-red-500/30 bg-red-500/15 px-3 py-2 text-sm text-red-200">
+        <div className="mb-3 rounded-lg border border-red-300 bg-red-100 px-3 py-2 text-sm text-red-700">
           {err}
         </div>
       )}
 
       {loading ? (
-        <div className="flex items-center gap-2 text-slate-300">
+        <div className="flex items-center gap-2 text-stone-600">
           <Loader2 className="h-4 w-4 animate-spin" /> Loading…
         </div>
       ) : members.length === 0 ? (
-        <p className="text-slate-400 text-sm">No members yet.</p>
+        <p className="text-stone-600 text-sm">No members yet.</p>
       ) : (
-        <ul className="divide-y divide-white/10 rounded-xl border border-white/10 bg-white/5">
+        <ul className="divide-y divide-stone-200/60 rounded-xl border border-stone-200/60 bg-white/60">
           {members.map((m) => (
             <li key={m.user_id} className="flex items-center justify-between px-4 py-3 text-sm">
-              <span className="text-slate-200">
+              <span className="text-stone-900">
                 {m.username && m.username.trim() ? m.username : m.user_id}
               </span>
-              <span className="text-xs rounded-full border border-white/15 bg-white/5 px-2 py-0.5">
+              <span className="text-xs rounded-full border border-stone-200/60 bg-white/80 px-2 py-0.5 text-stone-700">
                 {m.role}
               </span>
             </li>
@@ -390,25 +390,25 @@ function ModalShell({
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/30 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative w-full max-w-2xl rounded-2xl border border-white/15 bg-white/10 backdrop-blur-xl p-6 shadow-[0_8px_30px_rgba(2,8,23,0.45)]">
+      <div className="relative w-full max-w-2xl rounded-2xl border border-stone-200/60 bg-white/80 backdrop-blur-xl p-6 shadow-[0_8px_30px_rgba(0,0,0,0.15)]">
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-lg font-semibold">{title}</h3>
+          <h3 className="text-lg font-semibold text-stone-900">{title}</h3>
           <button
             onClick={onClose}
-            className="rounded-lg p-2 hover:bg-white/10 transition"
+            className="rounded-lg p-2 hover:bg-stone-100 transition"
             aria-label="Close"
           >
-            <X className="h-4 w-4 text-slate-300" />
+            <X className="h-4 w-4 text-stone-600" />
           </button>
         </div>
         {children}
         <div className="mt-4 flex justify-end">
           <button
             onClick={onClose}
-            className="rounded-lg border border-white/20 px-4 py-2 hover:border-white/40 transition"
+            className="rounded-lg border border-stone-300 px-4 py-2 hover:border-stone-400 transition text-stone-700"
           >
             Close
           </button>
