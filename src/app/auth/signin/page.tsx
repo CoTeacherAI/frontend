@@ -37,10 +37,10 @@ export default function SignInPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white/10 backdrop-blur-xl rounded-xl p-6 border border-white/20">
-        <h1 className="text-2xl font-bold mb-4 text-center">Welcome Back!</h1>
+      <div className="max-w-md w-full bg-white/70 backdrop-blur-xl rounded-xl p-6 border border-stone-200/60 shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
+        <h1 className="text-2xl font-bold mb-4 text-center text-stone-900">Welcome Back!</h1>
         {error && (
-          <div className="mb-3 text-red-400 text-sm bg-red-500/10 p-2 rounded">
+          <div className="mb-3 text-red-600 text-sm bg-red-100 p-2 rounded border border-red-200">
             {error}
           </div>
         )}
@@ -48,7 +48,7 @@ export default function SignInPage() {
           <input
             type="email"
             placeholder="Email"
-            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/20 focus:border-cyan-300 text-white"
+            className="w-full px-4 py-2 rounded-lg bg-white/80 border border-stone-300 focus:border-orange-400 text-stone-900 placeholder:text-stone-500"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -57,7 +57,7 @@ export default function SignInPage() {
           <input
             type="password"
             placeholder="Password"
-            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/20 focus:border-cyan-300 text-white"
+            className="w-full px-4 py-2 rounded-lg bg-white/80 border border-stone-300 focus:border-orange-400 text-stone-900 placeholder:text-stone-500"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -66,14 +66,14 @@ export default function SignInPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 bg-cyan-400/90 text-slate-900 font-semibold rounded-lg hover:bg-cyan-300 transition disabled:opacity-50"
+            className="w-full py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-slate-900 font-semibold rounded-lg hover:from-orange-400 hover:to-amber-400 transition disabled:opacity-50"
           >
             {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
-        <p className="mt-4 text-center text-sm text-slate-300">
-          Don’t have an account?{" "}
-          <a href="/auth/signup" className="text-cyan-300 hover:underline">
+        <p className="mt-4 text-center text-sm text-stone-600">
+          Don&apos;t have an account?{" "}
+          <a href="/auth/signup" className="text-orange-500 hover:underline">
             Sign up
           </a>
         </p>

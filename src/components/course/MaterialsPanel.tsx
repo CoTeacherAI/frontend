@@ -236,7 +236,7 @@ export default function MaterialsPanel({
       : "No files";
 
   return (
-    <section className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-xl">
+    <section className="rounded-2xl border border-stone-200/60 bg-white/70 backdrop-blur-xl">
       {/* Header / Toggle */}
       <button
         type="button"
@@ -246,16 +246,16 @@ export default function MaterialsPanel({
         aria-controls={`materials-panel-${courseId}`}
       >
         <div className="flex items-center gap-3">
-          <div className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-white/15 bg-white/5">
-            <Upload className="h-4 w-4 text-cyan-300" />
+          <div className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-stone-200/60 bg-white/60">
+            <Upload className="h-4 w-4 text-orange-500" />
           </div>
           <div className="text-left">
-            <div className="text-base font-semibold">Materials</div>
-            <div className="text-xs text-slate-400">{countLabel}</div>
+            <div className="text-base font-semibold text-stone-900">Materials</div>
+            <div className="text-xs text-stone-600">{countLabel}</div>
           </div>
         </div>
         <ChevronDown
-          className={`h-5 w-5 transition-transform ${open ? "rotate-180" : ""}`}
+          className={`h-5 w-5 transition-transform text-stone-700 ${open ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -269,7 +269,7 @@ export default function MaterialsPanel({
         <div className="overflow-hidden">
           {/* Upload controls */}
           <div className="mb-4">
-            <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-white/20 px-3 py-1.5 hover:border-white/40 transition">
+            <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-stone-300 px-3 py-1.5 hover:border-stone-400 transition text-stone-700">
               <Upload className="h-4 w-4" />
               <span>Upload materials</span>
               <input type="file" className="hidden" onChange={handleUpload} />
@@ -278,10 +278,10 @@ export default function MaterialsPanel({
 
           {/* History header */}
           <div className="mb-2 flex items-center justify-between">
-            <h3 className="text-sm font-medium text-slate-200">Upload history</h3>
+            <h3 className="text-sm font-medium text-stone-900">Upload history</h3>
             <button
               onClick={() => void refresh()}
-              className="rounded-lg border border-white/20 px-2 py-1 text-xs hover:border-white/40"
+              className="rounded-lg border border-stone-300 px-2 py-1 text-xs hover:border-stone-400 text-stone-700"
             >
               Refresh
             </button>
@@ -289,14 +289,14 @@ export default function MaterialsPanel({
 
           {/* Status / Errors */}
           {loading ? (
-            <div className="flex items-center gap-2 text-slate-300">
+            <div className="flex items-center gap-2 text-stone-600">
               <Loader2 className="h-4 w-4 animate-spin" />
               Loading…
             </div>
           ) : err ? (
-            <div className="text-xs text-red-200">{err}</div>
+            <div className="text-xs text-red-600">{err}</div>
           ) : files.length === 0 ? (
-            <div className="text-sm text-slate-400">No uploads yet.</div>
+            <div className="text-sm text-stone-600">No uploads yet.</div>
           ) : (
             // Scroll container to avoid pushing Members down
             <ul className="space-y-2 max-h-72 overflow-y-auto pr-1">
@@ -306,12 +306,12 @@ export default function MaterialsPanel({
                 return (
                   <li
                     key={f.id}
-                    className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm"
+                    className="rounded-lg border border-stone-200/60 bg-white/60 px-3 py-2 text-sm"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0">
-                        <div className="font-medium text-slate-200 truncate">{f.filename}</div>
-                        <div className="text-xs text-slate-400">
+                        <div className="font-medium text-stone-900 truncate">{f.filename}</div>
+                        <div className="text-xs text-stone-600">
                           {new Date(f.created_at).toLocaleString()} {size && `· ${size}`}
                         </div>
                       </div>
@@ -319,7 +319,7 @@ export default function MaterialsPanel({
                         <button
                           disabled={isBusy}
                           onClick={() => void download(f.storage_path, f.filename)}
-                          className="rounded-lg border border-white/20 px-2 py-1 hover:border-white/40 transition disabled:opacity-50"
+                          className="rounded-lg border border-stone-300 px-2 py-1 hover:border-stone-400 transition disabled:opacity-50 text-stone-700"
                           title="Download"
                         >
                           {isBusy ? "…" : "Download"}
@@ -327,7 +327,7 @@ export default function MaterialsPanel({
                         <button
                           disabled={isBusy}
                           onClick={() => void remove(f)}
-                          className="rounded-lg border border-red-400/40 text-red-200 px-2 py-1 hover:border-red-400/70 transition disabled:opacity-50"
+                          className="rounded-lg border border-red-400 text-red-600 px-2 py-1 hover:border-red-500 hover:bg-red-50 transition disabled:opacity-50"
                           title="Delete"
                         >
                           Delete

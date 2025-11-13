@@ -4,7 +4,7 @@ export function GlassyCard({ children, className = "" }: { children: ReactNode; 
   return (
     <div
       className={
-        "rounded-2xl border border-white/15 bg-white/10 backdrop-blur-xl shadow-[0_8px_30px_rgba(2,8,23,0.35)] " +
+        "rounded-2xl border border-stone-200/60 bg-white/70 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] " +
         className
       }
     >

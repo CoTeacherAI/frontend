@@ -65,7 +65,7 @@ export default function MembersPanel({
   }, [members.length]);
 
   return (
-    <section className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-xl">
+    <section className="rounded-2xl border border-stone-200/60 bg-white/70 backdrop-blur-xl">
       {/* Header / Toggle */}
       <div className="flex items-center justify-between gap-3 px-5 py-4">
         <button
@@ -75,22 +75,22 @@ export default function MembersPanel({
           aria-expanded={open}
           aria-controls={`members-panel-${courseId}`}
         >
-          <div className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-white/15 bg-white/5">
-            <Users className="h-5 w-5 text-cyan-300" />
+          <div className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-stone-200/60 bg-white/60">
+            <Users className="h-5 w-5 text-orange-500" />
           </div>
           <div className="text-left">
-            <div className="text-base font-semibold">Members</div>
-            <div className="text-xs text-slate-400">{countLabel}</div>
+            <div className="text-base font-semibold text-stone-900">Members</div>
+            <div className="text-xs text-stone-600">{countLabel}</div>
           </div>
           <ChevronDown
-            className={`ml-2 h-5 w-5 transition-transform ${open ? "rotate-180" : ""}`}
+            className={`ml-2 h-5 w-5 transition-transform text-stone-700 ${open ? "rotate-180" : ""}`}
           />
         </button>
 
         {isOwner ? (
           <button
             onClick={() => setOpenAddMembers(true)}
-            className="inline-flex items-center gap-1 rounded-lg border border-white/20 px-2 py-1 text-sm hover:border-white/40"
+            className="inline-flex items-center gap-1 rounded-lg border border-stone-300 px-2 py-1 text-sm hover:border-stone-400 transition text-stone-700"
             title="Add members"
           >
             <Plus className="h-4 w-4" />
@@ -108,15 +108,15 @@ export default function MembersPanel({
       >
         <div className="overflow-hidden">
           {members.length === 0 ? (
-            <p className="text-slate-400 text-sm">No members yet.</p>
+            <p className="text-stone-600 text-sm">No members yet.</p>
           ) : (
             <ul className="space-y-2 text-sm max-h-72 overflow-y-auto pr-1">
               {members.map((m) => (
                 <li key={m.user_id} className="flex items-center justify-between">
-                  <span className="text-slate-300">
+                  <span className="text-stone-900">
                     {m.username && m.username.trim().length > 0 ? m.username : m.user_id}
                   </span>
-                  <span className="text-xs rounded-full border border-white/15 bg-white/5 px-2 py-0.5">
+                  <span className="text-xs rounded-full border border-stone-200/60 bg-white/80 px-2 py-0.5 text-stone-700">
                     {m.role}
                   </span>
                 </li>
