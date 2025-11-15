@@ -56,7 +56,7 @@ export default function StudentDashboard() {
     }
     if (!isStudent) {
       // If not a student, bounce to generic /app (your role router can send them on)
-      router.replace("/app");
+      router.replace("/products/coteacher/app");
       return;
     }
     void loadMyCourses();
@@ -172,7 +172,7 @@ export default function StudentDashboard() {
                   {/* View bottom-right */}
                   <div className="absolute right-0 bottom-0">
                     <Link
-                      href={`/courses/${c.id}`}
+                      href={`/products/coteacher/courses/${c.id}`}
                       className="inline-flex items-center gap-2 rounded-lg border border-stone-300 px-3 py-1.5 hover:border-stone-400 transition text-stone-700"
                     >
                       View

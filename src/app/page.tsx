@@ -5,12 +5,14 @@ import Link from "next/link";
 import { GlassyCard } from "@/components/GlassyCard";
 import {
   Sparkles,
-  Upload,
   ArrowRight,
   CheckCircle2,
   Zap,
   Lock,
   Shield,
+  Presentation,
+  FileText,
+  MessageSquare,
 } from "lucide-react";
 import HeroDemo from "@/components/HeroDemo";
 
@@ -40,21 +42,20 @@ export default function Page() {
           <div className="inline-flex items-center gap-2 rounded-full border border-orange-400/20 bg-orange-400/10 px-4 py-1.5 mb-6 backdrop-blur">
             <Sparkles className="h-3.5 w-3.5 text-orange-400" />
             <span className="text-xs font-medium text-orange-700">
-              AI-Powered Learning Assistant
+              Complete EdTech Suite
             </span>
           </div>
 
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
-            Every course gets its own{" "}
+            Everything you need to{" "}
             <span className="bg-gradient-to-r from-orange-400 via-amber-400 to-orange-400 bg-clip-text text-transparent">
-              AI co-teacher
+              teach smarter
             </span>
           </h1>
 
           <p className="mt-6 text-stone-700 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
-            Professors upload materials. The AI analyzes and stores them privately
-            for each course. Students learn faster with guided hints—never final
-            answers.
+            Three powerful tools for modern educators: Create stunning presentations, 
+            generate post-lecture materials, and provide AI-powered learning support—all in one platform.
           </p>
 
           {/* CTAs */}
@@ -78,11 +79,15 @@ export default function Page() {
           <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-sm text-stone-600">
             <span className="inline-flex items-center gap-2">
               <Shield className="h-4 w-4 text-orange-500" />
-              Instructor controls AI on/off
+              Built for educators
             </span>
             <span className="inline-flex items-center gap-2">
               <Lock className="h-4 w-4 text-orange-500" />
-              Per-course private knowledge
+              Secure &amp; private
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <Zap className="h-4 w-4 text-orange-500" />
+              Easy to adopt
             </span>
           </div>
 
@@ -93,8 +98,8 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Features */}
-      <section className="relative mt-24 md:mt-32" id="features">
+      {/* Products */}
+      <section className="relative mt-24 md:mt-32" id="products">
         {/* section glow */}
         <div
           aria-hidden
@@ -103,84 +108,114 @@ export default function Page() {
         <div className="mx-auto max-w-7xl px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Everything you need to <span className="text-orange-400">teach smarter</span>
+              Our <span className="text-orange-400">products</span>
             </h2>
             <p className="text-stone-600 text-lg max-w-2xl mx-auto">
-              Powerful features designed for modern education
+              Three powerful tools designed for modern educators
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-            {/* Upload & organize */}
+            {/* ClassPark */}
             <GlassyCard className="group p-8 hover:border-orange-400/30 transition-all">
               <div className="flex items-center gap-4 mb-4">
                 <div className="rounded-xl bg-orange-400/10 p-3 group-hover:bg-orange-400/20 transition-colors">
-                  <Upload className="h-6 w-6 text-orange-400" />
+                  <FileText className="h-6 w-6 text-orange-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Upload &amp; organize</h3>
+                <h3 className="text-xl font-semibold">ClassPark</h3>
               </div>
-              <p className="text-stone-700 leading-relaxed">
-                PDFs, slides, and docs—ingested and indexed for precise retrieval.
-                Supports multiple formats with automatic parsing.
+              <p className="text-stone-700 leading-relaxed mb-4">
+                Transform class recordings into structured learning materials. 
+                Generate post-lecture notes, glossaries, and formative questions automatically.
               </p>
               <ul className="mt-4 space-y-2">
                 <li className="flex items-center gap-2 text-sm text-stone-600">
                   <CheckCircle2 className="h-4 w-4 text-orange-500" />
-                  PDF, DOCX, PPTX support
+                  Auto-generate notes from recordings
                 </li>
                 <li className="flex items-center gap-2 text-sm text-stone-600">
                   <CheckCircle2 className="h-4 w-4 text-orange-500" />
-                  Automatic text extraction
+                  Create glossary &amp; 5 quiz questions
+                </li>
+                <li className="flex items-center gap-2 text-sm text-stone-600">
+                  <CheckCircle2 className="h-4 w-4 text-orange-500" />
+                  Direct LMS integration
                 </li>
               </ul>
+              <Link
+                href="/products/classpark"
+                className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-orange-600 hover:text-orange-700 transition"
+              >
+                Learn more <ArrowRight className="h-4 w-4" />
+              </Link>
             </GlassyCard>
 
-            {/* Course-tuned AI */}
+            {/* SlidesDeck */}
             <GlassyCard className="group p-8 hover:border-orange-400/30 transition-all">
               <div className="flex items-center gap-4 mb-4">
                 <div className="rounded-xl bg-amber-400/10 p-3 group-hover:bg-amber-400/20 transition-colors">
-                  <Zap className="h-6 w-6 text-amber-400" />
+                  <Presentation className="h-6 w-6 text-amber-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Course-tuned AI</h3>
+                <h3 className="text-xl font-semibold">SlidesDeck</h3>
               </div>
-              <p className="text-stone-700 leading-relaxed">
-                Chat with an AI that knows your syllabus, not the whole internet.
-                Context-aware responses with source citations.
+              <p className="text-stone-700 leading-relaxed mb-4">
+                Professional presentation builder and generation studio. 
+                Create stunning slides with AI assistance and design tools.
               </p>
               <ul className="mt-4 space-y-2">
                 <li className="flex items-center gap-2 text-sm text-stone-600">
                   <CheckCircle2 className="h-4 w-4 text-amber-500" />
-                  Private knowledge base
+                  AI-powered slide generation
                 </li>
                 <li className="flex items-center gap-2 text-sm text-stone-600">
                   <CheckCircle2 className="h-4 w-4 text-amber-500" />
-                  Real-time citations
+                  Professional templates &amp; themes
+                </li>
+                <li className="flex items-center gap-2 text-sm text-stone-600">
+                  <CheckCircle2 className="h-4 w-4 text-amber-500" />
+                  Export to multiple formats
                 </li>
               </ul>
+              <Link
+                href="/products/slidesdeck"
+                className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-amber-600 hover:text-amber-700 transition"
+              >
+                Learn more <ArrowRight className="h-4 w-4" />
+              </Link>
             </GlassyCard>
 
-            {/* Integrity guardrails */}
+            {/* CoTeacher */}
             <GlassyCard className="group p-8 hover:border-orange-400/30 transition-all">
               <div className="flex items-center gap-4 mb-4">
                 <div className="rounded-xl bg-orange-400/10 p-3 group-hover:bg-orange-400/20 transition-colors">
-                  <Lock className="h-6 w-6 text-orange-400" />
+                  <MessageSquare className="h-6 w-6 text-orange-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Integrity guardrails</h3>
+                <h3 className="text-xl font-semibold">CoTeacher</h3>
               </div>
-              <p className="text-stone-700 leading-relaxed">
-                Hints and scaffolding only—no direct answers to graded work.
-                Maintains academic integrity automatically.
+              <p className="text-stone-700 leading-relaxed mb-4">
+                AI-powered learning assistant that knows your course materials. 
+                Provides guided hints and explanations—never direct answers.
               </p>
               <ul className="mt-4 space-y-2">
                 <li className="flex items-center gap-2 text-sm text-stone-600">
                   <CheckCircle2 className="h-4 w-4 text-orange-500" />
-                  Graded item protection
+                  Course-specific knowledge base
                 </li>
                 <li className="flex items-center gap-2 text-sm text-stone-600">
                   <CheckCircle2 className="h-4 w-4 text-orange-500" />
-                  Guided learning only
+                  Academic integrity guardrails
+                </li>
+                <li className="flex items-center gap-2 text-sm text-stone-600">
+                  <CheckCircle2 className="h-4 w-4 text-orange-500" />
+                  Real-time source citations
                 </li>
               </ul>
+              <Link
+                href="/products/coteacher"
+                className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-orange-600 hover:text-orange-700 transition"
+              >
+                Learn more <ArrowRight className="h-4 w-4" />
+              </Link>
             </GlassyCard>
           </div>
         </div>
@@ -277,12 +312,11 @@ export default function Page() {
             />
             <div className="relative z-10">
               <h3 className="text-3xl md:text-4xl font-bold mb-4">
-                Bring CoTeacher AI to your next course
+                Transform your teaching with DarasaHub
               </h3>
               <p className="mt-3 text-stone-700 text-lg max-w-2xl mx-auto">
-                Launch a pilot with a single class, then scale across your
-                institution. Join educators who are transforming how students
-                learn.
+                Join educators who are using ClassPark, SlidesDeck, and CoTeacher 
+                to create better learning experiences. Start with one product or use them all together.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link

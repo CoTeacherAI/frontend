@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
+import { ProductSidebar } from "@/components/ProductSidebar";
+import { MainContent } from "@/components/MainContent";
 import { AuthProvider } from "@/app/contexts/AuthContext";
+import { SidebarProvider } from "@/contexts/SidebarContext";
 import "./globals.css";
 import SiteFooter from "@/components/site-footer";
 
@@ -17,11 +20,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
         {/* App shell */}
         <AuthProvider>
-          <div className="relative flex min-h-dvh flex-col">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <SiteFooter />
-          </div>
+          <SidebarProvider>
+            <div className="relative flex min-h-dvh flex-col">
+              <Navbar />
+              <div className="flex flex-1 relative">
+                <ProductSidebar />
+                <MainContent>{children}</MainContent>
+              </div>
+              <SiteFooter />
+            </div>
+          </SidebarProvider>
         </AuthProvider>
       </body>
     </html>

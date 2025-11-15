@@ -47,7 +47,7 @@ export default function ProfessorDashboard() {
     if (!user) {
       router.replace("/auth/signin");
     } else if (userRole !== "professor") {
-      router.replace("/app");
+      router.replace("/products/coteacher/app");
     }
   }, [user, userRole, loading, router]);
 
@@ -171,7 +171,7 @@ export default function ProfessorDashboard() {
                     {typeof c.credits === "number" ? `${c.credits} credits` : "—"}
                   </div>
                   <Link
-                    href={`/courses/${c.id}`}
+                    href={`/products/coteacher/courses/${c.id}`}
                     className="inline-flex items-center gap-2 rounded-lg border border-stone-300 px-3 py-1.5 transition hover:border-stone-400 text-stone-700"
                   >
                     View

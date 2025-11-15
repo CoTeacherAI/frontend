@@ -28,7 +28,7 @@ export default function SignInPage() {
       }
 
       if (data.user) {
-        router.push("/app"); // dashboard
+        router.push("/products/coteacher/app");
       }
     } finally {
       setLoading(false);
