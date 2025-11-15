@@ -61,7 +61,7 @@ export default function SignUpPage() {
       }
 
       // 3) go to app root; it will redirect by role
-      router.push("/app");
+      router.push("/products/coteacher/app");
     } finally {
       setLoading(false);
     }

@@ -86,7 +86,7 @@ export default function CoursePage() {
           <p className="text-red-600">{err ?? "Not found"}</p>
           <div className="mt-4">
             <Link
-              href="/app"
+              href="/products/coteacher/app"
               className="inline-flex items-center gap-2 rounded-full border border-stone-300 px-4 py-2 hover:border-stone-400 text-stone-700"
             >
               <ArrowLeft className="h-4 w-4" /> Back
@@ -97,7 +97,7 @@ export default function CoursePage() {
     );
   }
 
-  const backHref = isOwner ? "/app/professor" : "/app/student";
+  const backHref = isOwner ? "/products/coteacher/professor" : "/products/coteacher/student";
 
   return (
     <main className="mx-auto max-w-[120rem] px-4 pt-24 pb-28">

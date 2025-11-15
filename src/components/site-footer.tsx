@@ -1,13 +1,19 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useAuth } from "@/app/contexts/AuthContext";
+import { useSidebar } from "@/contexts/SidebarContext";
+import { useMemo } from "react";
 import { Github, Linkedin, Mail, X as Twitter } from "lucide-react";
 
 type NavLink = { label: string; href: string; external?: boolean };
 
 const product: NavLink[] = [
-  { label: "Overview", href: "/product" },
+  { label: "ClassPark", href: "/products/classpark" },
+  { label: "SlidesDeck", href: "/products/slidesdeck" },
+  { label: "CoTeacher", href: "/products/coteacher" },
   { label: "Pricing", href: "/pricing" },
-  { label: "Roadmap", href: "/roadmap" },
-  { label: "Changelog", href: "/changelog" },
 ];
 
 const resources: NavLink[] = [
@@ -61,9 +67,23 @@ function Section({ title, links }: { title: string; links: NavLink[] }) {
 
 export default function SiteFooter() {
   const year = new Date().getFullYear();
+  const pathname = usePathname();
+  const { user } = useAuth();
+  const { isMinimized } = useSidebar();
+
+  // Check if sidebar should be visible (same logic as MainContent)
+  const sidebarVisible = useMemo(() => {
+    if (!user) return false;
+    return pathname?.startsWith("/products/");
+  }, [user, pathname]);
+
+  const marginLeft = useMemo(() => {
+    if (!sidebarVisible) return "ml-0";
+    return isMinimized ? "ml-0" : "ml-0 lg:ml-64";
+  }, [sidebarVisible, isMinimized]);
 
   return (
-    <footer className="relative border-t border-stone-200/60 bg-white/60 backdrop-blur">
+    <footer className={`relative border-t border-stone-200/60 bg-white/60 backdrop-blur transition-all duration-300 ${marginLeft}`}>
       {/* Accent line */}
       <div className="pointer-events-none absolute -top-px left-0 h-px w-full bg-gradient-to-r from-orange-400/0 via-orange-400/60 to-orange-400/0" />
 
@@ -73,15 +93,14 @@ export default function SiteFooter() {
           <div className="md:col-span-5 lg:col-span-4">
             <Link href="/" className="inline-flex items-center gap-2">
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-slate-900">
-                <span className="font-bold">CT</span>
+                <span className="font-bold">DH</span>
               </div>
               <span className="text-lg font-semibold tracking-tight text-stone-900">
-                CoTeacher&nbsp;AI
+                <span className="text-orange-500">Darasa</span>Hub
               </span>
             </Link>
             <p className="mt-4 max-w-sm text-sm text-stone-600">
-              CoTeacher AI helps instructors and students collaborate with an AI that&apos;s grounded in
-              your course materials.
+              Everything you need to teach smarter. Three powerful tools for modern educators: ClassPark, SlidesDeck, and CoTeacher.
             </p>
 
             {/* Socials */}
@@ -132,7 +151,7 @@ export default function SiteFooter() {
       {/* Bottom bar */}
       <div className="border-t border-stone-200/60">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-6 text-sm text-stone-600 sm:flex-row sm:px-6 lg:px-8">
-          <p>© {year} CoTeacher AI. All rights reserved.</p>
+          <p>© {year} DarasaHub. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <Link href="/status" className="hover:text-stone-900">
               Status
